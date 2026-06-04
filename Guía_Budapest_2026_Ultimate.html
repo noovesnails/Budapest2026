@@ -1,0 +1,1665 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Budapest 2026 🇭🇺</title>
+<style>
+:root{
+  --gold:#C9A84C;--gl:#E8C96B;--gp:#F5E8BE;
+  --dk:#1A1208;--dk2:#2D2010;--mid:#6B4E2A;
+  --cr:#FAF5E8;--cr2:#F0E4C8;
+  --red:#B03030;--grn:#2D6A45;--blu:#2A4A7A;
+  --th:56px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;}
+html,body{height:100%;overscroll-behavior:none;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--cr);color:var(--dk);padding-bottom:calc(var(--th) + env(safe-area-inset-bottom,0px) + 8px);}
+
+/* HERO */
+.hero{background:var(--dk2);background-image:radial-gradient(ellipse 70% 60% at 25% 70%,rgba(201,168,76,.22),transparent),radial-gradient(ellipse 50% 50% at 80% 15%,rgba(176,48,48,.14),transparent);padding:28px 16px 22px;text-align:center;}
+.hero-flag{font-size:38px;display:block;margin-bottom:4px;}
+.hero h1{font-size:clamp(1.7rem,6vw,2.8rem);font-weight:800;color:var(--gl);line-height:1.1;letter-spacing:-.5px;}
+.hero h1 em{font-style:italic;color:#fff;}
+.hero-sub{font-size:.65rem;color:rgba(255,255,255,.5);margin-top:5px;letter-spacing:2px;text-transform:uppercase;}
+.hero-pax{display:flex;gap:7px;justify-content:center;margin-top:11px;flex-wrap:wrap;}
+.pax{background:rgba(201,168,76,.18);border:1px solid rgba(201,168,76,.35);color:var(--gl);padding:3px 11px;border-radius:50px;font-size:.72rem;font-weight:600;}
+
+/* PROGRESS */
+.pg-wrap{background:var(--dk);padding:8px 16px;}
+.pg-txt{color:var(--gp);font-size:.68rem;letter-spacing:.8px;font-weight:600;}
+.pg-bg{background:#333;border-radius:3px;height:4px;margin-top:4px;}
+#pg-fill{height:4px;background:linear-gradient(90deg,var(--gold),var(--gl));border-radius:3px;width:0;transition:width .4s;}
+
+/* TABBAR */
+.tabbar{
+  position:fixed;bottom:0;left:0;right:0;
+  height:calc(var(--th) + env(safe-area-inset-bottom,0px));
+  background:var(--dk2);border-top:1px solid rgba(201,168,76,.25);
+  display:flex;z-index:9999;
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+.tb{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:2px;background:none;border:none;color:rgba(255,255,255,.4);
+  font-size:.56rem;font-weight:700;letter-spacing:.3px;text-transform:uppercase;
+  padding:0 2px;cursor:pointer;
+  touch-action:manipulation;-webkit-appearance:none;
+  min-height:44px;min-width:44px;
+  -webkit-user-select:none;user-select:none;
+  transition:color .15s;
+  font-family:-apple-system,sans-serif;
+}
+.tb .ico{font-size:17px;line-height:1.1;}
+.tb.on{color:var(--gl);}
+.tb.on .ico{background:rgba(201,168,76,.18);border-radius:8px;padding:2px 8px;}
+
+/* PAGES */
+.pg{display:none;padding:12px 13px 0;}
+.pg.on{display:block;}
+
+/* SECTION TITLE */
+.sec{font-size:.95rem;font-weight:800;margin:16px 0 9px;display:flex;align-items:center;gap:8px;color:var(--dk);}
+.sec::after{content:'';flex:1;height:1px;background:var(--cr2);}
+
+/* INFO CARDS */
+.igrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.ic{background:var(--dk2);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:10px 12px;color:#fff;}
+.ic-l{font-size:.55rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);font-weight:700;margin-bottom:2px;}
+.ic-v{font-size:.78rem;line-height:1.4;}
+.ic-v small{font-size:.65rem;color:rgba(255,255,255,.4);display:block;margin-top:1px;}
+.mono{font-family:'Courier New',monospace;color:var(--gl);font-weight:700;font-size:.85rem;letter-spacing:1px;}
+
+/* DAY HEADER */
+.dh{display:flex;align-items:center;gap:10px;margin:4px 0 12px;padding-bottom:10px;border-bottom:2px solid var(--cr2);}
+.dn{background:var(--dk2);color:var(--gl);font-size:1.1rem;font-weight:800;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid var(--gold);flex-shrink:0;}
+.dt{font-size:1.1rem;font-weight:800;}
+.ds{font-size:.68rem;color:#888;margin-top:1px;}
+
+/* MAP */
+.mapsec{margin-bottom:12px;}
+
+
+
+
+
+
+
+/* TIMELINE */
+.tl{position:relative;padding-left:24px;margin-bottom:12px;}
+.tl::before{content:'';position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:linear-gradient(to bottom,var(--gp),var(--cr2));}
+
+/* ITEM */
+.ti{position:relative;margin-bottom:9px;}
+.tdot{position:absolute;left:-20px;top:14px;width:10px;height:10px;border-radius:50%;background:var(--cr);border:2.5px solid var(--gold);transition:all .2s;}
+.ti.dn2 .tdot{background:var(--grn);border-color:var(--grn);}
+.tc{background:#fff;border:1px solid #eee;border-radius:11px;padding:11px 12px;box-shadow:0 1px 5px rgba(26,18,8,.09);transition:border-color .15s;}
+.ti.dn2 .tc{background:#f6fdf7;border-color:#bde0c8;opacity:.75;}
+
+.cr1{display:flex;align-items:flex-start;gap:7px;}
+.ct{font-size:.62rem;font-weight:700;color:var(--gold);letter-spacing:.8px;white-space:nowrap;padding-top:3px;min-width:40px;}
+.cn{font-size:.92rem;font-weight:700;flex:1;line-height:1.25;}
+.ti.dn2 .cn{color:#5a8a66;text-decoration:line-through;text-decoration-color:#bde0c8;}
+.eico{background:none;border:none;cursor:pointer;font-size:17px;flex-shrink:0;padding:0 2px;color:#ccc;touch-action:manipulation;-webkit-appearance:none;}
+.ckb{background:none;border:none;cursor:pointer;font-size:19px;flex-shrink:0;padding:0 2px;touch-action:manipulation;-webkit-appearance:none;-webkit-user-select:none;user-select:none;}
+.cd{font-size:.74rem;color:#555;margin-top:5px;line-height:1.45;padding-left:47px;}
+.ti.dn2 .cd{text-decoration:line-through;text-decoration-color:#bde0c8;color:#8a9a8a;}
+.ctags{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px;padding-left:47px;}
+.tag{display:inline-flex;align-items:center;gap:2px;font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:20px;}
+.tf{background:#FFF0E0;color:#B05010;}
+.tt{background:#E0EEFF;color:#1A3A8A;}
+.ts{background:#F0E0FF;color:#6A1A9A;}
+.te{background:#EFFFEF;color:#1A6A3A;}
+.tw{background:#FFF4E0;color:#B04000;}
+.tp{background:#FFE8F5;color:#A01060;}
+.tb2{background:#E0F4FF;color:#104080;}
+.clnks{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px;padding-left:47px;}
+.lnk{display:inline-flex;align-items:center;gap:3px;font-size:.68rem;font-weight:700;text-decoration:none;padding:3px 9px;border-radius:6px;touch-action:manipulation;}
+.lm{background:#E8F0FF;color:#1A3A9A;}
+.lb{background:#FFE8E8;color:#9A1A1A;}
+.li{background:#F0E8FF;color:#5A1A9A;}
+
+/* EXPENSE ROW */
+.exp-row{display:flex;align-items:center;gap:6px;margin-top:7px;padding-left:47px;flex-wrap:wrap;}
+.exp-lbl{font-size:.65rem;color:#888;font-weight:600;white-space:nowrap;}
+.exp-inp{
+  border:1px solid var(--cr2);border-radius:6px;
+  padding:4px 8px;font-size:.75rem;color:var(--dk);
+  background:#fff;width:90px;font-family:-apple-system,sans-serif;
+  -webkit-appearance:none;
+}
+.exp-inp:focus{outline:none;border-color:var(--gold);}
+.exp-unit{font-size:.65rem;color:#aaa;}
+
+/* EDIT */
+.ced{display:none;padding:8px 0 4px 47px;}
+.ced.op{display:block;}
+.ef{width:100%;border:1px solid var(--cr2);border-radius:7px;padding:6px 9px;font-family:-apple-system,sans-serif;font-size:.74rem;color:var(--dk);background:#fff;margin-bottom:5px;resize:vertical;-webkit-appearance:none;}
+.ef:focus{outline:none;border-color:var(--gold);}
+.eas{display:flex;gap:6px;flex-wrap:wrap;}
+.bs{padding:5px 11px;border-radius:6px;font-size:.68rem;font-weight:700;border:none;cursor:pointer;font-family:-apple-system,sans-serif;touch-action:manipulation;-webkit-appearance:none;}
+.bsave{background:var(--grn);color:#fff;}
+.bcanc{background:#eee;color:#555;}
+.bdel{background:var(--red);color:#fff;}
+
+/* TRANSIT */
+.trn{display:flex;align-items:center;margin-bottom:3px;padding-left:0;}
+.trn-pill{display:inline-flex;align-items:center;gap:4px;background:#fff;border:1px dashed #ccc;border-radius:20px;padding:3px 10px;font-size:.65rem;color:#666;font-weight:500;}
+
+/* ADD STOP */
+.addbtn{width:100%;background:none;border:2px dashed rgba(201,168,76,.4);border-radius:11px;padding:10px;color:var(--gold);font-size:.78rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;margin-bottom:12px;touch-action:manipulation;-webkit-appearance:none;font-family:-apple-system,sans-serif;}
+.addfrm{background:#fff;border:1px solid var(--cr2);border-radius:11px;padding:13px;margin-bottom:12px;display:none;}
+.addfrm.op{display:block;}
+.addfrm h4{font-size:.76rem;font-weight:800;margin-bottom:9px;}
+.addfrm label{font-size:.66rem;font-weight:700;color:var(--mid);display:block;margin-bottom:2px;margin-top:7px;}
+.addfrm input,.addfrm textarea{width:100%;border:1px solid var(--cr2);border-radius:7px;padding:7px 9px;font-family:-apple-system,sans-serif;font-size:.76rem;color:var(--dk);-webkit-appearance:none;}
+.addfrm textarea{resize:vertical;min-height:55px;}
+.addfrm input:focus,.addfrm textarea:focus{outline:none;border-color:var(--gold);}
+.afrm-acts{display:flex;gap:7px;margin-top:10px;}
+
+/* INFO BLOCKS */
+.ib{background:var(--dk2);border-left:4px solid var(--gold);border-radius:0 9px 9px 0;padding:12px 14px;margin-bottom:10px;color:#fff;}
+.ib h4{font-size:.88rem;font-weight:700;color:var(--gl);margin-bottom:6px;}
+.ib p,.ib li{font-size:.74rem;line-height:1.55;color:rgba(255,255,255,.8);}
+.ib ol,.ib ul{padding-left:15px;}
+.ib li{margin-bottom:2px;}
+.ib code{background:rgba(201,168,76,.2);color:var(--gl);padding:1px 5px;border-radius:4px;font-size:.85em;font-weight:700;}
+
+.alert{background:#FFF5E0;border-left:4px solid #E8A020;border-radius:0 9px 9px 0;padding:10px 13px;margin-bottom:10px;font-size:.74rem;line-height:1.5;color:#5A3800;}
+
+/* FLIGHT */
+.flt{background:linear-gradient(135deg,var(--dk2) 0%,#3A2818 100%);border:1px solid rgba(201,168,76,.28);border-radius:13px;padding:14px;margin-bottom:10px;color:#fff;position:relative;overflow:hidden;}
+.flt::after{content:'✈';position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:44px;opacity:.06;}
+.fl{font-size:.58rem;text-transform:uppercase;letter-spacing:2px;color:var(--gold);font-weight:700;margin-bottom:8px;}
+.fr{display:flex;align-items:center;gap:9px;}
+.fc{font-size:1.4rem;font-weight:900;}
+.fc small{font-size:.58rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:1px;display:block;margin-top:1px;font-weight:400;}
+.fa{color:var(--gold);font-size:1.2rem;}
+.fm{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;}
+.fi{font-size:.68rem;color:rgba(255,255,255,.55);}
+.fi strong{color:var(--gl);display:block;font-size:.84rem;}
+
+/* RESERVE */
+.rl{display:flex;flex-direction:column;gap:7px;margin-bottom:12px;}
+.ri{display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--cr2);border-radius:9px;padding:10px 12px;}
+.ri .ric{font-size:17px;flex-shrink:0;}
+.ri .rib{flex:1;}
+.ri .rn{font-size:.8rem;font-weight:700;}
+.ri .rs{font-size:.67rem;color:#888;margin-top:1px;}
+.rbtn{background:var(--red);color:#fff;border:none;border-radius:6px;padding:5px 11px;font-size:.68rem;font-weight:700;cursor:pointer;text-decoration:none;white-space:nowrap;flex-shrink:0;font-family:-apple-system,sans-serif;touch-action:manipulation;}
+
+/* RUIN BAR CARD */
+.rbc{background:var(--dk2);border-radius:13px;padding:13px 14px;margin-bottom:9px;color:#fff;border:1px solid rgba(201,168,76,.3);}
+.rbc-hdr{font-size:.58rem;text-transform:uppercase;letter-spacing:2px;color:var(--gold);font-weight:700;margin-bottom:9px;}
+.rb-item{background:rgba(255,255,255,.06);border-radius:9px;padding:10px 12px;border-left:3px solid var(--gold);margin-bottom:7px;}
+.rb-item:last-child{margin-bottom:0;}
+.rb-stop{font-size:.58rem;font-weight:700;letter-spacing:.8px;margin-bottom:2px;}
+.rb-name{font-size:.94rem;font-weight:800;margin-bottom:4px;}
+.rb-desc{font-size:.71rem;color:rgba(255,255,255,.62);line-height:1.45;}
+.rb-addr{font-size:.65rem;color:rgba(255,255,255,.4);margin-top:4px;}
+.rb-addr a{color:var(--gl);}
+.rb-foot{margin-top:10px;padding-top:8px;border-top:1px solid rgba(255,255,255,.1);font-size:.68rem;color:rgba(255,255,255,.45);line-height:1.5;}
+
+/* ── GASTOS TAB ── */
+.exp-summary{background:#fff;border:1px solid var(--cr2);border-radius:12px;overflow:hidden;margin-bottom:14px;}
+.exp-sumhdr{background:var(--dk2);color:var(--gl);padding:12px 15px;font-size:.88rem;font-weight:800;display:flex;align-items:center;gap:8px;}
+.exp-table{width:100%;border-collapse:collapse;}
+.exp-table th{background:var(--gp);color:var(--dk2);font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.8px;padding:7px 10px;text-align:left;}
+.exp-table td{font-size:.76rem;padding:7px 10px;border-bottom:1px solid #f0e8d8;vertical-align:top;}
+.exp-table tr:last-child td{border-bottom:none;}
+.exp-table .day-row td{background:var(--gp);font-weight:800;font-size:.72rem;color:var(--dk2);}
+.exp-table .total-row td{background:var(--dk2);color:var(--gl);font-weight:800;font-size:.82rem;}
+.exp-amt{font-family:'Courier New',monospace;font-weight:700;color:var(--dk2);font-size:.8rem;}
+.exp-amt.zero{color:#ccc;}
+.pair-total{font-family:'Courier New',monospace;font-weight:700;color:var(--gl);}
+.exp-note{font-size:.65rem;color:#888;}
+.recalc-btn{width:100%;background:var(--dk2);color:var(--gl);border:none;border-radius:9px;padding:11px;font-size:.82rem;font-weight:700;cursor:pointer;margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:8px;font-family:-apple-system,sans-serif;touch-action:manipulation;}
+.pair-card{background:#fff;border:1px solid var(--cr2);border-radius:12px;padding:14px;margin-bottom:10px;}
+.pair-card h3{font-size:.88rem;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.pair-bar{height:8px;background:var(--cr2);border-radius:4px;margin:8px 0;}
+.pair-fill{height:8px;border-radius:4px;transition:width .5s;}
+.pair-total-big{font-size:1.6rem;font-weight:900;font-family:'Courier New',monospace;}
+
+@media(min-width:480px){
+  .igrid{grid-template-columns:repeat(3,1fr);}
+
+}
+
+
+/* ── MAP LINK BOXES ── */
+.map-links-box{background:var(--dk2);border:1px solid rgba(201,168,76,.3);border-radius:9px;padding:11px 12px;margin-bottom:12px;}
+.map-links-title{font-size:.6rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);font-weight:700;margin-bottom:8px;}
+.map-direct-btn{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:8px 11px;margin-bottom:6px;color:#fff;text-decoration:none;font-size:.75rem;font-weight:600;transition:background .15s;touch-action:manipulation;}
+.map-direct-btn:last-child{margin-bottom:0;}
+.map-direct-btn:active{background:rgba(255,255,255,.15);}
+.map-direct-btn.map-highlight{border-color:var(--gold);color:var(--gl);}
+.map-direct-btn.map-party{border-color:#ff88aa;color:#ff88aa;}
+
+/* ── SYNC STATUS ── */
+.sync-bar{background:var(--dk);padding:5px 14px;display:flex;align-items:center;gap:8px;}
+#sync-dot{width:9px;height:9px;border-radius:50%;background:#aaa;flex-shrink:0;transition:background .4s;}
+.sync-txt{font-size:.65rem;color:rgba(255,255,255,.5);font-weight:600;letter-spacing:.5px;}
+.sync-cfg{font-size:.6rem;color:var(--gold);text-decoration:none;margin-left:auto;font-weight:700;}
+.reset-btn{width:100%;background:none;border:1px solid #e0d0c0;border-radius:8px;padding:9px;font-size:.74rem;color:#999;cursor:pointer;font-family:-apple-system,sans-serif;margin-bottom:10px;touch-action:manipulation;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <span class="hero-flag">🇭🇺</span>
+  <h1>Budapest<br><em>Los Cuatro</em></h1>
+  <p class="hero-sub">5 · 6 · 7 · 8 Junio 2026</p>
+  <div class="hero-pax">
+    <span class="pax">👨 Pedro</span><span class="pax">👩 Nuria</span>
+    <span class="pax">👨 Paco</span><span class="pax">👩 Beatriz</span>
+  </div>
+</div>
+
+
+<!-- CURRENCY CONVERTER -->
+<div style="background:var(--dk2);padding:12px 14px;border-bottom:1px solid rgba(201,168,76,.2);">
+  <div style="max-width:480px;margin:0 auto;">
+    <div style="font-size:.6rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);font-weight:700;margin-bottom:8px;text-align:center;">💱 Calculadora EUR ↔ HUF · ~400 HUF = 1€</div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div style="flex:1;">
+        <div style="font-size:.6rem;color:rgba(255,255,255,.5);font-weight:600;margin-bottom:3px;text-align:center;">€ EUROS</div>
+        <input type="number" id="eur-inp" placeholder="0.00" min="0" step="0.01"
+          style="width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(201,168,76,.4);border-radius:8px;padding:10px 12px;color:#fff;font-size:1.1rem;font-weight:700;text-align:center;font-family:-apple-system,sans-serif;-webkit-appearance:none;"
+          oninput="convEUR(this.value)">
+      </div>
+      <div style="color:var(--gold);font-size:1.4rem;font-weight:700;padding-top:14px;">⇄</div>
+      <div style="flex:1;">
+        <div style="font-size:.6rem;color:rgba(255,255,255,.5);font-weight:600;margin-bottom:3px;text-align:center;">Ft FORINT</div>
+        <input type="number" id="huf-inp" placeholder="0" min="0" step="1"
+          style="width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(201,168,76,.4);border-radius:8px;padding:10px 12px;color:var(--gl);font-size:1.1rem;font-weight:700;text-align:center;font-family:-apple-system,sans-serif;-webkit-appearance:none;"
+          oninput="convHUF(this.value)">
+      </div>
+    </div>
+    <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;justify-content:center;" id="quick-conv">
+      <button type="button" onclick="convEUR(1)" style="background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:var(--gl);border-radius:6px;padding:4px 10px;font-size:.68rem;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif;touch-action:manipulation;">1€</button>
+      <button type="button" onclick="convEUR(5)" style="background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:var(--gl);border-radius:6px;padding:4px 10px;font-size:.68rem;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif;touch-action:manipulation;">5€</button>
+      <button type="button" onclick="convEUR(10)" style="background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:var(--gl);border-radius:6px;padding:4px 10px;font-size:.68rem;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif;touch-action:manipulation;">10€</button>
+      <button type="button" onclick="convEUR(20)" style="background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:var(--gl);border-radius:6px;padding:4px 10px;font-size:.68rem;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif;touch-action:manipulation;">20€</button>
+      <button type="button" onclick="convEUR(50)" style="background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:var(--gl);border-radius:6px;padding:4px 10px;font-size:.68rem;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif;touch-action:manipulation;">50€</button>
+      <button type="button" onclick="convHUF(1000)" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.6);border-radius:6px;padding:4px 10px;font-size:.68rem;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif;touch-action:manipulation;">1.000 Ft</button>
+      <button type="button" onclick="convHUF(5000)" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.6);border-radius:6px;padding:4px 10px;font-size:.68rem;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif;touch-action:manipulation;">5.000 Ft</button>
+      <button type="button" onclick="convHUF(10000)" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.6);border-radius:6px;padding:4px 10px;font-size:.68rem;font-weight:700;cursor:pointer;font-family:-apple-system,sans-serif;touch-action:manipulation;">10.000 Ft</button>
+    </div>
+  </div>
+</div>
+<div class="pg-wrap">
+  <div class="pg-txt" id="pg-txt">—</div>
+  <div class="pg-bg"><div id="pg-fill"></div></div>
+</div>
+
+<!-- TABBAR -->
+<div class="sync-bar">
+  <div id="sync-dot"></div>
+  <span class="sync-txt" id="sync-txt">Sincronización</span>
+</div>
+
+<nav class="tabbar" role="navigation">
+  <button type="button" class="tb on" id="tb-info" onclick="ST('info')"><span class="ico">📋</span>Info</button>
+  <button type="button" class="tb" id="tb-jue" onclick="ST('jue')"><span class="ico">✈️</span>Jueves</button>
+  <button type="button" class="tb" id="tb-vie" onclick="ST('vie')"><span class="ico">🕍</span>Viernes</button>
+  <button type="button" class="tb" id="tb-sab" onclick="ST('sab')"><span class="ico">🛳️</span>Sábado</button>
+  <button type="button" class="tb" id="tb-dom" onclick="ST('dom')"><span class="ico">🏠</span>Dom.</button>
+  <button type="button" class="tb" id="tb-exp" onclick="ST('exp')"><span class="ico">💶</span>Gastos</button>
+</nav>
+
+<!-- ═══ PAGE INFO ═══ -->
+<div class="pg on" id="pg-info">
+    <div style="background:var(--dk2);border-radius:11px;padding:14px;margin-bottom:14px;color:#fff;">
+      <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);font-weight:700;margin-bottom:10px;">💶 Presupuesto total estimado del viaje</div>
+      <table style="width:100%;border-collapse:collapse;font-size:.78rem;">
+        <tr style="border-bottom:1px solid rgba(255,255,255,.1);"><td style="padding:6px 4px;">✈️ Jueves</td><td style="text-align:right;color:var(--gl);font-weight:700;">≈55-65€/pareja</td></tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,.1);"><td style="padding:6px 4px;">🕍 Viernes</td><td style="text-align:right;color:var(--gl);font-weight:700;">≈110-130€/pareja</td></tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,.1);"><td style="padding:6px 4px;">🛳️ Sábado</td><td style="text-align:right;color:var(--gl);font-weight:700;">≈90-115€/pareja</td></tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,.1);"><td style="padding:6px 4px;">🏠 Domingo</td><td style="text-align:right;color:var(--gl);font-weight:700;">≈20-45€/pareja</td></tr>
+        <tr style="border-bottom:1px solid rgba(255,255,255,.15);padding-top:4px;"><td style="padding:8px 4px;font-size:.65rem;color:rgba(255,255,255,.4);" colspan="2">* Sin contar vuelos ni alojamiento · Incluye comidas, transporte local, entradas y bares</td></tr>
+        <tr style="background:rgba(201,168,76,.15);border-radius:8px;"><td style="padding:8px 4px;font-weight:800;font-size:.88rem;">🏆 TOTAL ESTIMADO/PAREJA</td><td style="text-align:right;font-weight:900;font-size:1.1rem;color:var(--gl);">275-355€</td></tr>
+      </table>
+      <div style="font-size:.65rem;color:rgba(255,255,255,.4);margin-top:8px;">💡 Usa la calculadora EUR↔HUF de arriba para convertir precios en el momento</div>
+    </div>
+  <div id="jsonbin-setup" style="display:none;background:#1A1208;border:2px solid var(--gold);border-radius:12px;padding:14px;margin-bottom:14px;color:#fff;">
+    <div style="font-size:.8rem;font-weight:800;color:var(--gl);margin-bottom:8px;">☁️ Activar sincronización en tiempo real</div>
+    <div style="font-size:.72rem;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:10px;">Para que los 4 compartáis checks y gastos en tiempo real:<br>
+    1. Ve a <strong style="color:var(--gl)">jsonbin.io</strong> → Sign Up gratis<br>
+    2. Dashboard → <strong style="color:var(--gl)">Create Bin</strong> → contenido: <code style="background:rgba(255,255,255,.1);padding:1px 5px;border-radius:3px;">{}</code> → Create<br>
+    3. Copia el <strong style="color:var(--gl)">BIN ID</strong> y tu <strong style="color:var(--gl)">API Key</strong> (Account → API Keys)<br>
+    4. Abre el .html en un editor de texto, pega los valores en las variables <code style="background:rgba(255,255,255,.1);padding:1px 5px;border-radius:3px;">JSONBIN_ID</code> y <code style="background:rgba(255,255,255,.1);padding:1px 5px;border-radius:3px;">JSONBIN_KEY</code><br>
+    5. Vuelve a subir el archivo</div>
+    <a href="https://jsonbin.io" target="_blank" style="display:inline-block;background:var(--gold);color:#1A1208;font-weight:800;font-size:.74rem;padding:7px 14px;border-radius:7px;text-decoration:none;">Ir a JSONBin →</a>
+  </div>
+  <button type="button" class="reset-btn" onclick="resetAll()">🗑️ Borrar todos los datos guardados</button>
+
+  <div class="sec">🏠 Alojamiento y acceso</div>
+  <div class="igrid">
+    <div class="ic"><div class="ic-l">Dirección</div><div class="ic-v">Nagymező utca 22-24<br>1065 Budapest<br>5ª planta · Apto <strong>nº10</strong><small>Metro Opera (M1) · 5 min</small></div></div>
+    <div class="ic"><div class="ic-l">Key-box</div><div class="ic-v">Caja: <span class="mono">10</span><br>Código: <span class="mono">4607</span><small>RFID 2 veces</small></div></div>
+    <div class="ic"><div class="ic-l">WiFi</div><div class="ic-v"><span class="mono" style="font-size:.72rem">Rooftop_Apts</span><br><span class="mono">Budapest01</span><small>In/Out 15h / 10h</small></div></div>
+    <div class="ic"><div class="ic-l">Metro cercano</div><div class="ic-v">Oktogon (M1) · 3'<br>Tranvía 4/6 · 24h<small>Tarjeta 72h ≈14€</small></div></div>
+    <div class="ic"><div class="ic-l">Moneda</div><div class="ic-v">Forint (HUF)<br><span class="mono">~400 HUF=1€</span><small>Tarjeta ok mayoría</small></div></div>
+    <div class="ic"><div class="ic-l">Anfitriona</div><div class="ic-v">Sophie<br><small>Contactar si hay<br>algún problema</small></div></div>
+  </div>
+  <div class="ib"><h4>🔑 Cómo entrar — Paso a paso</h4><ol><li>Llegar a <code>Nagymező utca 22-24</code></li><li>Key-box <code>nº10</code> izquierda de la verja · Código <code>4607</code> → RFID</li><li>RFID en verja de la <strong>calle</strong> (1ª vez)</li><li>Entrar, <strong>girar derecha</strong>, RFID en verja interior (2ª vez)</li><li>Ascensor <strong>5ª</strong> → puerta azul → Apto <code>nº10</code></li></ol></div>
+  <div class="ib"><h4>🚇 Tarjeta 72h — Cómo comprarla</h4><ol><li>Máquinas <strong>BKK moradas</strong> al llegar al aeropuerto</li><li><code>72-hour Budapest travelcard</code> · <code>~5.500 HUF ≈ 14€</code></li><li>Pagar con tarjeta · Activar todos a la vez</li><li>También en app <strong>BudapestGO</strong></li><li>⚠️ Bus 100E: <code>2.200 HUF aparte</code> — NO incluido en 72h</li></ol></div>
+
+  <div class="sec">✈️ Vuelos · Localizador: F6VHUH</div>
+  <div class="flt"><div class="fl">✈ IDA — Jueves 5 Junio 2026</div><div class="fr"><div class="fc">CAS<small>Castellón</small></div><div class="fa">→</div><div class="fc">BUD<small>Budapest</small></div></div><div class="fm"><div class="fi"><strong>16:40</strong>Salida</div><div class="fi"><strong>19:20</strong>Llegada</div><div class="fi"><strong>2h 40m</strong></div><div class="fi"><strong>FR 7369</strong>Ryanair</div><div class="fi"><strong>F6VHUH</strong>Loc.</div></div></div>
+  <div class="flt"><div class="fl">✈ VUELTA — Domingo 8 Junio 2026</div><div class="fr"><div class="fc">BUD<small>Budapest</small></div><div class="fa">→</div><div class="fc">CAS<small>Castellón</small></div></div><div class="fm"><div class="fi"><strong>12:20</strong>Salida</div><div class="fi"><strong>15:15</strong>Llegada</div><div class="fi"><strong>FR 7368</strong>Ryanair</div><div class="fi"><strong>F6VHUH</strong>Loc.</div></div></div>
+
+  <div class="sec">⭐ Reservas Confirmadas</div>
+  <div class="rl">
+    <div class="ri"><span class="ric">🗺️</span><div class="rib"><div class="rn">Free Tour Barrio Judío ✅ A39351661</div><div class="rs">Viernes 10:45 · Madách Imre tér, estatua de Sisi · Fin en Ópera</div></div><a href="https://maps.app.goo.gl/gaFw6KmSXF7hyN6h7" target="_blank" class="rbtn">Maps</a></div>
+    <div class="ri"><span class="ric">🛳️</span><div class="rib"><div class="rn">Crucero Nocturno · Silverline Cruises</div><div class="rs">Sáb 22:00 · Dokk 11 · Jane Haining Rakpart · 10 min antes</div></div><a href="https://maps.app.goo.gl/n6c6QMwByJTZb3RC8" target="_blank" class="rbtn">Maps</a></div>
+    <div class="ri"><span class="ric">🕍</span><div class="rib"><div class="rn">Gran Sinagoga — Exterior (sin entrada)</div><div class="rs">Viernes mañana · Gratis</div></div><a href="https://maps.google.com/?q=Gran+Sinagoga+Budapest" target="_blank" class="rbtn">Maps</a></div>
+    <div class="ri"><span class="ric">🏛️</span><div class="rib"><div class="rn">Parlamento — Paseo exterior (sin entrada)</div><div class="rs">Sábado mañana · Gratis · M2 Kossuth Lajos tér</div></div><a href="https://maps.google.com/?q=Parlamento+Budapest" target="_blank" class="rbtn">Maps</a></div>
+  </div>
+
+  <div class="sec">🍽️ Comida típica a probar</div>
+  <div class="ib"><h4>Come como un húngaro</h4><ul><li><strong>Gulyás</strong> — sopa/estofado con paprika</li><li><strong>Lángos</strong> — masa frita con crema agria (~1.500 HUF)</li><li><strong>Kürtőskalács</strong> — bollo de chimenea callejero</li><li><strong>Pörkölt</strong> — guiso de carne estilo húngaro</li><li><strong>Pálinka</strong> — aguardiente de fruta · probar sí o sí</li><li><strong>Fröccs</strong> — vino blanco con soda, muy refrescante</li><li><strong>Torta Dobos</strong> — pastel de capas con caramelo (New York Café)</li></ul></div>
+</div>
+
+<!-- ═══ PAGE JUEVES ═══ -->
+<div class="pg" id="pg-jue">
+  <div class="dh"><div class="dn">J</div><div><div class="dt">Jueves 5 Junio 🌙</div><div class="ds">Llegada · Vuelo 16:40 CAS → 19:20 BUD · FR7369</div></div></div>
+  <div class="mapsec">
+      <div class="map-links-box">
+        <div class="map-links-title">🗺️ Mapas del recorrido — Jueves</div>
+        <a href="https://www.google.com/maps/dir/Budapest+Franz+Liszt+International+Airport/Deák+Ferenc+tér,+Budapest/Opera+metro+Budapest/Nagymező+utca+22,+Budapest" target="_blank" class="map-direct-btn">🛣️ Ruta completa aeropuerto → apartamento</a>
+        <a href="https://www.google.com/maps/search/Penny+Market+Nagymező+utca+25+Budapest" target="_blank" class="map-direct-btn">🛒 Penny Market (aprovisionamiento)</a>
+        <a href="https://www.google.com/maps/search/Menza+Étterem+Budapest+Liszt+Ferenc+tér" target="_blank" class="map-direct-btn">🍲 Menza Étterem (cena)</a>
+        <a href="https://www.google.com/maps/search/Oktogon+Budapest" target="_blank" class="map-direct-btn">🌃 Oktogon (paseo nocturno)</a>
+      </div>
+    </div>
+  <div style="background:#fff;border:1px solid var(--cr2);border-radius:11px;padding:12px 14px;margin-bottom:12px;">
+    <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);font-weight:700;margin-bottom:9px;">💶 Precios orientativos — Jueves</div>
+    <table style="width:100%;border-collapse:collapse;font-size:.74rem;">
+      <tr style="border-bottom:1px solid var(--cr2);"><td style="padding:5px 4px;">🚌 Bus 100E aeropuerto (ida)</td><td style="text-align:right;font-weight:700;color:var(--dk2);">2.200 Ft · <span style="color:var(--grn)">≈5,50€</span>/p</td></tr>
+      <tr style="border-bottom:1px solid var(--cr2);"><td style="padding:5px 4px;">🚇 Tarjeta transporte 72h</td><td style="text-align:right;font-weight:700;color:var(--dk2);">5.500 Ft · <span style="color:var(--grn)">≈14€</span>/p</td></tr>
+      <tr style="border-bottom:1px solid var(--cr2);"><td style="padding:5px 4px;">🛒 Penny Market (básicos)</td><td style="text-align:right;font-weight:700;color:var(--dk2);">~4.000 Ft · <span style="color:var(--grn)">≈10€</span> los 4</td></tr>
+      <tr style="border-bottom:1px solid var(--cr2);"><td style="padding:5px 4px;">🍲 Cena Menza (menú+bebida)</td><td style="text-align:right;font-weight:700;color:var(--dk2);">5.000-6.000 Ft · <span style="color:var(--grn)">≈12-15€</span>/p</td></tr>
+      <tr style="background:var(--gp);"><td style="padding:6px 4px;font-weight:700;">💰 Total estimado jueves/pareja</td><td style="text-align:right;font-weight:800;color:var(--dk2);">≈ <span style="font-size:.9rem;">55-65€</span></td></tr>
+    </table>
+  </div>
+  <div class="tl" id="tl-jue">
+    <div class="ti" id="jue-1">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1">
+          <span class="ct">19:20</span>
+          <span class="cn">✈️ Aterrizaje — Aeropuerto BUD</span>
+          <button type="button" class="eico" onclick="OE('jue-1')">✏️</button>
+          <button type="button" class="ckb" onclick="CD('jue-1')">⬜</button>
+        </div>
+        <div class="cd">Recoger equipaje. Buscar máquinas BKK moradas para tarjeta 72h (5.500 HUF/p) + ticket bus 100E (2.200 HUF/p).</div>
+        <div class="ctags"><span class="tag tf">✈ FR7369</span></div>
+        
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-jue-1" placeholder="0.00" min="0" step="0.01" onchange="saveExp('jue-1')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-jue-1">
+          <input class="ef" data-f="time" value="19:20">
+          <input class="ef" data-f="name" value="✈️ Aterrizaje — Aeropuerto BUD">
+          <textarea class="ef" data-f="desc">Recoger equipaje. Buscar máquinas BKK moradas para tarjeta 72h (5.500 HUF/p) + ticket bus 100E (2.200 HUF/p).</textarea>
+          <input class="ef" data-f="map" value="">
+          <div class="eas">
+            <button type="button" class="bs bsave" onclick="SE('jue-1')">✅ Guardar</button>
+            <button type="button" class="bs bcanc" onclick="CE('jue-1')">Cancelar</button>
+            <button type="button" class="bs bdel" onclick="DEL('jue-1')">🗑 Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="trn"><div class="trn-pill">🚶 1 min — Girar izquierda al salir del terminal</div></div>
+    <div class="ti" id="jue-2">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1">
+          <span class="ct">~19:40</span>
+          <span class="cn">🚌 Bus 100E al centro</span>
+          <button type="button" class="eico" onclick="OE('jue-2')">✏️</button>
+          <button type="button" class="ckb" onclick="CD('jue-2')">⬜</button>
+        </div>
+        <div class="cd">Deja en Deák Ferenc tér en ~40 min. Comprar también la tarjeta 72h aquí si no se ha hecho.</div>
+        <div class="ctags"><span class="tag tt">100E · 40 min</span><span class="tag te">2.200 HUF/p</span><span class="tag tw">⚠ Ticket aparte</span></div>
+        <div class="clnks"><a href="https://maps.google.com/?q=Budapest+Airport+Bus+100E+Stop" target="_blank" class="lnk lm">📍 Maps</a></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-jue-2" placeholder="0.00" min="0" step="0.01" onchange="saveExp('jue-2')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-jue-2">
+          <input class="ef" data-f="time" value="~19:40">
+          <input class="ef" data-f="name" value="🚌 Bus 100E al centro">
+          <textarea class="ef" data-f="desc">Deja en Deák Ferenc tér en ~40 min. Comprar también la tarjeta 72h aquí si no se ha hecho.</textarea>
+          <input class="ef" data-f="map" value="https://maps.google.com/?q=Budapest+Airport+Bus+100E+Stop">
+          <div class="eas">
+            <button type="button" class="bs bsave" onclick="SE('jue-2')">✅ Guardar</button>
+            <button type="button" class="bs bcanc" onclick="CE('jue-2')">Cancelar</button>
+            <button type="button" class="bs bdel" onclick="DEL('jue-2')">🗑 Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="trn"><div class="trn-pill">🚇 En Deák Ferenc tér → Metro M1 amarilla dirección Mexikói → Opera (1 parada, 2 min)</div></div>
+    <div class="ti" id="jue-3">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1">
+          <span class="ct">~20:25</span>
+          <span class="cn">🚇 Metro M1 → Parada Opera</span>
+          <button type="button" class="eico" onclick="OE('jue-3')">✏️</button>
+          <button type="button" class="ckb" onclick="CD('jue-3')">⬜</button>
+        </div>
+        <div class="cd">Bajarse en Opera. El apartamento está a 5 min a pie por Nagymező utca.</div>
+        <div class="ctags"><span class="tag tt">🟡 M1 · 1 parada</span><span class="tag te">✅ Tarjeta 72h</span></div>
+        <div class="clnks"><a href="https://maps.google.com/?q=Opera+metro+Budapest+M1" target="_blank" class="lnk lm">📍 Maps</a></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-jue-3" placeholder="0.00" min="0" step="0.01" onchange="saveExp('jue-3')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-jue-3">
+          <input class="ef" data-f="time" value="~20:25">
+          <input class="ef" data-f="name" value="🚇 Metro M1 → Parada Opera">
+          <textarea class="ef" data-f="desc">Bajarse en Opera. El apartamento está a 5 min a pie por Nagymező utca.</textarea>
+          <input class="ef" data-f="map" value="https://maps.google.com/?q=Opera+metro+Budapest+M1">
+          <div class="eas">
+            <button type="button" class="bs bsave" onclick="SE('jue-3')">✅ Guardar</button>
+            <button type="button" class="bs bcanc" onclick="CE('jue-3')">Cancelar</button>
+            <button type="button" class="bs bdel" onclick="DEL('jue-3')">🗑 Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="trn"><div class="trn-pill">🚶 5 min — Recto por Nagymező utca</div></div>
+    <div class="ti" id="jue-4">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1">
+          <span class="ct">~20:35</span>
+          <span class="cn">🏠 Check-in — Nagymező utca 22-24</span>
+          <button type="button" class="eico" onclick="OE('jue-4')">✏️</button>
+          <button type="button" class="ckb" onclick="CD('jue-4')">⬜</button>
+        </div>
+        <div class="cd">Key-box nº10 · Código 4607 · RFID 2 veces · Ascensor 5ª → puerta azul → Apto nº10.</div>
+        <div class="ctags"><span class="tag tw">🔑 KeyBox 4607</span></div>
+        <div class="clnks"><a href="https://maps.google.com/?q=Nagymező+utca+22,+Budapest" target="_blank" class="lnk lm">📍 Maps</a></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-jue-4" placeholder="0.00" min="0" step="0.01" onchange="saveExp('jue-4')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-jue-4">
+          <input class="ef" data-f="time" value="~20:35">
+          <input class="ef" data-f="name" value="🏠 Check-in — Nagymező utca 22-24">
+          <textarea class="ef" data-f="desc">Key-box nº10 · Código 4607 · RFID 2 veces · Ascensor 5ª → puerta azul → Apto nº10.</textarea>
+          <input class="ef" data-f="map" value="https://maps.google.com/?q=Nagymező+utca+22,+Budapest">
+          <div class="eas">
+            <button type="button" class="bs bsave" onclick="SE('jue-4')">✅ Guardar</button>
+            <button type="button" class="bs bcanc" onclick="CE('jue-4')">Cancelar</button>
+            <button type="button" class="bs bdel" onclick="DEL('jue-4')">🗑 Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="trn"><div class="trn-pill">🚶 1 min — Nagymező utca 25, literalmente al lado</div></div>
+    <div class="ti" id="jue-5">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1">
+          <span class="ct">~21:00</span>
+          <span class="cn">🛒 Aprovisionamiento — Penny Market</span>
+          <button type="button" class="eico" onclick="OE('jue-5')">✏️</button>
+          <button type="button" class="ckb" onclick="CD('jue-5')">⬜</button>
+        </div>
+        <div class="cd">Abre hasta las 22h. Agua, snacks, desayunos, cerveza.</div>
+        <div class="ctags"><span class="tag tf">🛒 1 min</span></div>
+        <div class="clnks"><a href="https://maps.google.com/?q=Penny+Market+Nagymező+utca+25+Budapest" target="_blank" class="lnk lm">📍 Maps</a></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-jue-5" placeholder="0.00" min="0" step="0.01" onchange="saveExp('jue-5')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-jue-5">
+          <input class="ef" data-f="time" value="~21:00">
+          <input class="ef" data-f="name" value="🛒 Aprovisionamiento — Penny Market">
+          <textarea class="ef" data-f="desc">Abre hasta las 22h. Agua, snacks, desayunos, cerveza.</textarea>
+          <input class="ef" data-f="map" value="https://maps.google.com/?q=Penny+Market+Nagymező+utca+25+Budapest">
+          <div class="eas">
+            <button type="button" class="bs bsave" onclick="SE('jue-5')">✅ Guardar</button>
+            <button type="button" class="bs bcanc" onclick="CE('jue-5')">Cancelar</button>
+            <button type="button" class="bs bdel" onclick="DEL('jue-5')">🗑 Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="trn"><div class="trn-pill">🚶 10 min — Por Andrássy hasta Plaza Liszt Ferenc tér</div></div>
+    <div class="ti" id="jue-6">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1">
+          <span class="ct">~21:30</span>
+          <span class="cn">🍲 Cena — Menza Étterem</span>
+          <button type="button" class="eico" onclick="OE('jue-6')">✏️</button>
+          <button type="button" class="ckb" onclick="CD('jue-6')">⬜</button>
+        </div>
+        <div class="cd">Cocina húngara retro-socialista. Gulyás, pörkölt o csirkepaprikás. ~12-15€/persona.</div>
+        <div class="ctags"><span class="tag tf">🍴 10 min</span><span class="tag te">~12-15€/p</span></div>
+        <div class="clnks"><a href="https://maps.google.com/?q=Menza+Étterem+Budapest+Liszt+Ferenc+tér" target="_blank" class="lnk lm">📍 Maps</a></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-jue-6" placeholder="0.00" min="0" step="0.01" onchange="saveExp('jue-6')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-jue-6">
+          <input class="ef" data-f="time" value="~21:30">
+          <input class="ef" data-f="name" value="🍲 Cena — Menza Étterem">
+          <textarea class="ef" data-f="desc">Cocina húngara retro-socialista. Gulyás, pörkölt o csirkepaprikás. ~12-15€/persona.</textarea>
+          <input class="ef" data-f="map" value="https://maps.google.com/?q=Menza+Étterem+Budapest+Liszt+Ferenc+tér">
+          <div class="eas">
+            <button type="button" class="bs bsave" onclick="SE('jue-6')">✅ Guardar</button>
+            <button type="button" class="bs bcanc" onclick="CE('jue-6')">Cancelar</button>
+            <button type="button" class="bs bdel" onclick="DEL('jue-6')">🗑 Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="trn"><div class="trn-pill">🚶 5 min — Por Andrássy al norte</div></div>
+    <div class="ti" id="jue-7">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1">
+          <span class="ct">~23:00</span>
+          <span class="cn">🌃 Paseo nocturno — Andrássy y Oktogon</span>
+          <button type="button" class="eico" onclick="OE('jue-7')">✏️</button>
+          <button type="button" class="ckb" onclick="CD('jue-7')">⬜</button>
+        </div>
+        <div class="cd">Primera toma de contacto con Budapest de noche. Vuelta en Tranvía 4/6.</div>
+        <div class="ctags"><span class="tag ts">🌙 Paseo libre</span></div>
+        <div class="clnks"><a href="https://maps.google.com/?q=Oktogon+Budapest" target="_blank" class="lnk lm">📍 Maps</a></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-jue-7" placeholder="0.00" min="0" step="0.01" onchange="saveExp('jue-7')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-jue-7">
+          <input class="ef" data-f="time" value="~23:00">
+          <input class="ef" data-f="name" value="🌃 Paseo nocturno — Andrássy y Oktogon">
+          <textarea class="ef" data-f="desc">Primera toma de contacto con Budapest de noche. Vuelta en Tranvía 4/6.</textarea>
+          <input class="ef" data-f="map" value="https://maps.google.com/?q=Oktogon+Budapest">
+          <div class="eas">
+            <button type="button" class="bs bsave" onclick="SE('jue-7')">✅ Guardar</button>
+            <button type="button" class="bs bcanc" onclick="CE('jue-7')">Cancelar</button>
+            <button type="button" class="bs bdel" onclick="DEL('jue-7')">🗑 Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type="button" class="addbtn" onclick="TAF('add-jue')">＋ Añadir parada al día</button>
+  <div class="addfrm" id="add-jue">
+    <h4>➕ Nueva parada</h4>
+    <label>Hora</label><input type="text" id="add-jue-time" placeholder="ej. 15:00">
+    <label>Nombre del sitio</label><input type="text" id="add-jue-name" placeholder="ej. 🏊 Baños Széchenyi">
+    <label>Descripción</label><textarea id="add-jue-desc" placeholder="Qué hacer, precio..."></textarea>
+    <label>Link Google Maps (opcional)</label><input type="url" id="add-jue-map">
+    <div class="afrm-acts">
+      <button type="button" class="bs bsave" onclick="AS('jue')">✅ Añadir</button>
+      <button type="button" class="bs bcanc" onclick="TAF('add-jue')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PAGE VIERNES ═══ -->
+<div class="pg" id="pg-vie">
+  <div class="dh"><div class="dn">V</div><div><div class="dt">Viernes 6 Junio 🕍🍺</div><div class="ds">Barrio Judío · Ópera · Mercado · Estadio · 7 Ruin Bars</div></div></div>
+  <div class="alert">💡 <strong>Estrategia:</strong> Mañana en el Barrio Judío, tarde cultura + estadio, vuelta al apartamento a cambiarse, y noche de ruin bars de 21:00 hasta lo que aguantéis. Todos los bares en 600m entre sí.</div>
+
+  <div class="mapsec">
+    <div class="map-links-box">
+      <div class="map-links-title">🗺️ Mapas del recorrido — Viernes</div>
+      <a href="https://www.google.com/maps/dir/Gran+Sinagoga+Budapest/Madách+Imre+tér+Budapest/Opera+Budapest/Mercado+Central+Budapest/Hősök+tere+Budapest/Puskás+Aréna+Budapest" target="_blank" class="map-direct-btn">🛣️ Ruta completa mañana y tarde</a>
+      <a href="https://maps.app.goo.gl/gaFw6KmSXF7hyN6h7" target="_blank" class="map-direct-btn map-highlight">📍 Punto encuentro Free Tour (Madách Imre tér)</a>
+      <a href="https://www.google.com/maps/search/Ópera+de+Budapest+Andrássy+út+22" target="_blank" class="map-direct-btn">🎭 Ópera de Budapest (exterior)</a>
+      <a href="https://www.google.com/maps/search/Mercado+Central+Budapest+Nagy+Vásárcsarnok" target="_blank" class="map-direct-btn">🏪 Mercado Central de Budapest</a>
+      <a href="https://www.google.com/maps/search/Puskás+Aréna+Budapest" target="_blank" class="map-direct-btn">🏟️ Puskás Aréna</a>
+      <a href="https://www.google.com/maps/dir/Szimpla+Kert+Budapest/Ellátó+Kert+Budapest/Corvintető+Budapest/Doboz+Budapest/Instant+Fogas+Budapest/Morrisons+2+Budapest/Anker+t+Budapest" target="_blank" class="map-direct-btn map-party">🍺 Ruta completa 7 Ruin Bars (de una vez)</a>
+    </div>
+  </div>
+
+  <div style="background:#fff;border:1px solid var(--cr2);border-radius:11px;padding:12px 14px;margin-bottom:12px;">
+    <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);font-weight:700;margin-bottom:9px;">💶 Precios orientativos — Viernes</div>
+    <table style="width:100%;border-collapse:collapse;font-size:.74rem;">
+      <tr style="border-bottom:1px solid var(--cr2);"><td style="padding:5px 4px;">☕ Desayuno</td><td style="text-align:right;font-weight:700;">600-1.500 Ft · <span style="color:var(--grn)">≈1,50-4€</span>/p</td></tr>
+      <tr style="border-bottom:1px solid var(--cr2);"><td style="padding:5px 4px;">🕍 Gran Sinagoga exterior</td><td style="text-align:right;font-weight:700;"><span style="color:var(--grn)">Gratis</span></td></tr>
+      <tr style="border-bottom:1px solid var(--cr2);"><td style="padding:5px 4px;">🗺️ Free Tour (propina)</td><td style="text-align:right;font-weight:700;">2.000-4.000 Ft · <span style="color:var(--grn)">≈5-10€</span>/p</td></tr>
+      <tr style="border-bottom:1px solid var(--cr2);"><td style="padding:5px 4px;">🎭 Ópera exterior</td><td style="text-align:right;font-weight:700;"><span style="color:var(--grn)">Gratis</span></td></tr>
+      <tr style="border-bottom:1px solid var(--cr2);"><td style="padding:5px 4px;">🍽️ Comida Gettó Gulyás</td><td style="text-align:right;font-weight:700;">4.000-4.800 Ft · <span style="color:var(--grn)">≈10-12€</span>/p</td></tr>
+      <tr style="border-bottom:1px solid var(--cr2);"><td style="padding:5px 4px;">🏪 Mercado Central (compras)</td><td style="text-align:right;font-weight:700;">~8.000 Ft · <span style="color:var(--grn)">≈20€</span> los 4 (orientativo)</td></tr>
+      <tr style="border-bottom:1px solid var(--cr2);"><td style="padding:5px 4px;">🏛️ Plaza de los Héroes</td><td style="text-align:right;font-weight:700;"><span style="color:var(--grn)">Gratis</span></td></tr>
+      <tr style="border-bottom:1px solid var(--cr2);"><td style="padding:5px 4px;">🏟️ Puskás Aréna exterior</td><td style="text-align:right;font-weight:700;"><span style="color:var(--grn)">Gratis</span></td></tr>
+      <tr style="border-bottom:1px solid var(--cr2);"><td style="padding:5px 4px;">🌮 Cena Karaván</td><td style="text-align:right;font-weight:700;">3.200-4.800 Ft · <span style="color:var(--grn)">≈8-12€</span>/p</td></tr>
+      <tr style="border-bottom:1px solid var(--cr2);"><td style="padding:5px 4px;">🍺 7 Ruin Bars (~3 consumiciones/bar)</td><td style="text-align:right;font-weight:700;">~28.000 Ft · <span style="color:var(--grn)">≈70€</span>/p (estimado)</td></tr>
+      <tr style="border-bottom:1px solid var(--cr2);"><td style="padding:5px 4px;">🚕 Bolt vuelta (opcional)</td><td style="text-align:right;font-weight:700;">~4.800 Ft · <span style="color:var(--grn)">≈12€</span> los 4</td></tr>
+      <tr style="background:var(--gp);"><td style="padding:6px 4px;font-weight:700;">💰 Total estimado viernes/pareja</td><td style="text-align:right;font-weight:800;color:var(--dk2);">≈ <span style="font-size:.9rem;">110-130€</span></td></tr>
+    </table>
+  </div>
+  <div class="tl" id="tl-vie">
+
+    <div class="ti" id="vie-1">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1"><span class="ct">09:00</span><span class="cn">☕ Desayuno en el barrio</span><button type="button" class="eico" onclick="OE('vie-1')">✏️</button><button type="button" class="ckb" onclick="CD('vie-1')">⬜</button></div>
+        <div class="cd">Kürtőskalács callejeros (~1.500 HUF) o café en panadería de Andrássy. Salir con tiempo para llegar a la sinagoga.</div>
+        <div class="ctags"><span class="tag tf">☕ Cerca apto</span></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-vie-1" placeholder="0.00" min="0" step="0.01" onchange="saveExp('vie-1')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-vie-1"><input class="ef" data-f="time" value="09:00"><input class="ef" data-f="name" value="☕ Desayuno en el barrio"><textarea class="ef" data-f="desc">Kürtőskalács callejeros (~1.500 HUF) o café en panadería de Andrássy.</textarea><input class="ef" data-f="map"><div class="eas"><button type="button" class="bs bsave" onclick="SE('vie-1')">✅ Guardar</button><button type="button" class="bs bcanc" onclick="CE('vie-1')">Cancelar</button><button type="button" class="bs bdel" onclick="DEL('vie-1')">🗑 Eliminar</button></div></div>
+      </div>
+    </div>
+
+    <div class="trn"><div class="trn-pill">🚇 M1 Opera → Deák tér, luego M2 → Astoria · 10 min · o a pie 20 min por Andrássy</div></div>
+
+    <div class="ti" id="vie-2">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1"><span class="ct">10:00</span><span class="cn">🕍 Gran Sinagoga — Exterior (sin entrada)</span><button type="button" class="eico" onclick="OE('vie-2')">✏️</button><button type="button" class="ckb" onclick="CD('vie-2')">⬜</button></div>
+        <div class="cd">Fachada islamo-bizantina impresionante con torres gemelas de cúpulas cebolla. Fotos desde el exterior y paseo por los alrededores del Barrio Judío.</div>
+        <div class="ctags"><span class="tag ts">🕍 Exterior libre</span><span class="tag te">Gratis</span></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-vie-2" placeholder="0.00" min="0" step="0.01" onchange="saveExp('vie-2')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-vie-2"><input class="ef" data-f="time" value="10:00"><input class="ef" data-f="name" value="🕍 Gran Sinagoga — Exterior (sin entrada)"><textarea class="ef" data-f="desc">Fachada islamo-bizantina. Fotos desde el exterior. Sin entrada.</textarea><input class="ef" data-f="map" value="https://www.google.com/maps/search/Gran+Sinagoga+Budapest+Dohány+utca"><div class="eas"><button type="button" class="bs bsave" onclick="SE('vie-2')">✅ Guardar</button><button type="button" class="bs bcanc" onclick="CE('vie-2')">Cancelar</button><button type="button" class="bs bdel" onclick="DEL('vie-2')">🗑 Eliminar</button></div></div>
+      </div>
+    </div>
+
+    <div class="trn"><div class="trn-pill">🚶 5 min — Por Dohány utca hacia el oeste hasta Madách Imre tér</div></div>
+
+    <div class="ti" id="vie-3">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1"><span class="ct">10:45</span><span class="cn">🗺️ Free Tour Barrio Judío ✅ A39351661</span><button type="button" class="eico" onclick="OE('vie-3')">✏️</button><button type="button" class="ckb" onclick="CD('vie-3')">⬜</button></div>
+        <div class="cd">📋 <strong>Reserva: A39351661</strong><br>📍 <strong>Punto exacto: Madách Imre tér, junto a la estatua de Sisi.</strong> No es la entrada de la sinagoga — 5 min más al oeste.<br>~2h en español por el Distrito VII. 🏁 <strong>El tour termina en la Ópera de Budapest.</strong> Propina ~5-10€/persona.</div>
+        <div class="ctags"><span class="tag ts">🗺 2h · Español</span><span class="tag te">Propina libre</span></div>
+        <div class="clnks"><a href="https://maps.app.goo.gl/gaFw6KmSXF7hyN6h7" target="_blank" class="lnk lm">📍 Punto exacto</a><a href="https://www.google.com/maps/search/Ópera+Budapest+Andrássy+22" target="_blank" class="lnk li">🏁 Fin · Ópera</a></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-vie-3" placeholder="0.00" min="0" step="0.01" onchange="saveExp('vie-3')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-vie-3"><input class="ef" data-f="time" value="10:45"><input class="ef" data-f="name" value="🗺️ Free Tour Barrio Judío ✅ A39351661"><textarea class="ef" data-f="desc">Reserva A39351661. Punto: Madách Imre tér, estatua de Sisi. Termina en la Ópera.</textarea><input class="ef" data-f="map" value="https://maps.app.goo.gl/gaFw6KmSXF7hyN6h7"><div class="eas"><button type="button" class="bs bsave" onclick="SE('vie-3')">✅ Guardar</button><button type="button" class="bs bcanc" onclick="CE('vie-3')">Cancelar</button><button type="button" class="bs bdel" onclick="DEL('vie-3')">🗑 Eliminar</button></div></div>
+      </div>
+    </div>
+
+    <div class="trn"><div class="trn-pill">🚶 0 min — El tour termina justo en la puerta de la Ópera</div></div>
+
+    <div class="ti" id="vie-4">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1"><span class="ct">~12:45</span><span class="cn">🎭 Ópera de Budapest — Exterior y fachada</span><button type="button" class="eico" onclick="OE('vie-4')">✏️</button><button type="button" class="ckb" onclick="CD('vie-4')">⬜</button></div>
+        <div class="cd">El tour termina aquí — aprovechad para ver la fachada neorrenacentista de cerca, una de las más bonitas de Europa. Fotos en las escalinatas. 15-20 min.</div>
+        <div class="ctags"><span class="tag ts">🎭 Exterior libre</span><span class="tag te">Gratis</span></div>
+        <div class="clnks"><a href="https://www.google.com/maps/search/Ópera+de+Budapest+Andrássy+22" target="_blank" class="lnk lm">📍 Maps</a></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-vie-4" placeholder="0.00" min="0" step="0.01" onchange="saveExp('vie-4')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-vie-4"><input class="ef" data-f="time" value="~12:45"><input class="ef" data-f="name" value="🎭 Ópera de Budapest — Exterior y fachada"><textarea class="ef" data-f="desc">Fachada neorrenacentista. Fotos en las escalinatas. 15-20 min.</textarea><input class="ef" data-f="map" value="https://www.google.com/maps/search/Ópera+de+Budapest+Andrássy+22"><div class="eas"><button type="button" class="bs bsave" onclick="SE('vie-4')">✅ Guardar</button><button type="button" class="bs bcanc" onclick="CE('vie-4')">Cancelar</button><button type="button" class="bs bdel" onclick="DEL('vie-4')">🗑 Eliminar</button></div></div>
+      </div>
+    </div>
+
+    <div class="trn"><div class="trn-pill">🚇 M1 desde Opera → Astoria · 3 min · luego 5 min a pie al Barrio Judío</div></div>
+
+    <div class="ti" id="vie-5">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1"><span class="ct">13:15</span><span class="cn">🍽️ Comida — Gettó Gulyás</span><button type="button" class="eico" onclick="OE('vie-5')">✏️</button><button type="button" class="ckb" onclick="CD('vie-5')">⬜</button></div>
+        <div class="cd">Restaurante económico en pleno Barrio Judío. Menú del día con gulyás y pörkölt. Pide un fröccs (vino con soda) para acompañar. ~10-12€/persona.</div>
+        <div class="ctags"><span class="tag tf">🥘 Barrio Judío</span><span class="tag te">~10-12€/p</span></div>
+        <div class="clnks"><a href="https://www.google.com/maps/search/Gettó+Gulyás+Budapest" target="_blank" class="lnk lm">📍 Maps</a></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-vie-5" placeholder="0.00" min="0" step="0.01" onchange="saveExp('vie-5')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-vie-5"><input class="ef" data-f="time" value="13:15"><input class="ef" data-f="name" value="🍽️ Comida — Gettó Gulyás"><textarea class="ef" data-f="desc">Menú del día con gulyás y pörkölt. ~10-12€/persona.</textarea><input class="ef" data-f="map" value="https://www.google.com/maps/search/Gettó+Gulyás+Budapest"><div class="eas"><button type="button" class="bs bsave" onclick="SE('vie-5')">✅ Guardar</button><button type="button" class="bs bcanc" onclick="CE('vie-5')">Cancelar</button><button type="button" class="bs bdel" onclick="DEL('vie-5')">🗑 Eliminar</button></div></div>
+      </div>
+    </div>
+
+    <div class="trn"><div class="trn-pill">🚇 M3 desde Kálvin tér → Fővám tér · 2 paradas · 4 min</div></div>
+
+    <div class="ti" id="vie-6">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1"><span class="ct">14:30</span><span class="cn">🏪 Mercado Central de Budapest</span><button type="button" class="eico" onclick="OE('vie-6')">✏️</button><button type="button" class="ckb" onclick="CD('vie-6')">⬜</button></div>
+        <div class="cd">El mercado más grande y espectacular de Budapest (1897). Interior de hierro y madera preciosa. Planta baja: paprika, salami, foie, quesos, frutas. Planta alta: lángos, comida callejera, souvenirs auténticos a mejor precio que las tiendas turísticas. ~1h.</div>
+        <div class="ctags"><span class="tag ts">🏪 ~1h</span><span class="tag te">Gratis entrar</span></div>
+        <div class="clnks"><a href="https://www.google.com/maps/search/Mercado+Central+Budapest+Nagy+Vásárcsarnok" target="_blank" class="lnk lm">📍 Maps</a></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-vie-6" placeholder="0.00" min="0" step="0.01" onchange="saveExp('vie-6')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-vie-6"><input class="ef" data-f="time" value="14:30"><input class="ef" data-f="name" value="🏪 Mercado Central de Budapest"><textarea class="ef" data-f="desc">Mercado más grande de Budapest (1897). Paprika, salami, foie. Planta alta: lángos y souvenirs. ~1h.</textarea><input class="ef" data-f="map" value="https://www.google.com/maps/search/Mercado+Central+Budapest+Nagy+Vásárcsarnok"><div class="eas"><button type="button" class="bs bsave" onclick="SE('vie-6')">✅ Guardar</button><button type="button" class="bs bcanc" onclick="CE('vie-6')">Cancelar</button><button type="button" class="bs bdel" onclick="DEL('vie-6')">🗑 Eliminar</button></div></div>
+      </div>
+    </div>
+
+    <div class="trn"><div class="trn-pill">🚇 M3 desde Fővám tér → Deák tér · luego M1 → Hősök tere · 15 min total</div></div>
+
+    <div class="ti" id="vie-7">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1"><span class="ct">15:45</span><span class="cn">🏛️ Plaza de los Héroes</span><button type="button" class="eico" onclick="OE('vie-7')">✏️</button><button type="button" class="ckb" onclick="CD('vie-7')">⬜</button></div>
+        <div class="cd">Estatuas de los Siete Caudillos Magiares y la Columna del Milenio. Junto al Parque Városliget y el Castillo Vajdahunyad. ~45 min. Entrada libre.</div>
+        <div class="ctags"><span class="tag ts">🏛️ Gratis</span></div>
+        <div class="clnks"><a href="https://www.google.com/maps/search/Plaza+Heroes+Budapest+Hosok+tere" target="_blank" class="lnk lm">📍 Maps</a></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-vie-7" placeholder="0.00" min="0" step="0.01" onchange="saveExp('vie-7')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-vie-7"><input class="ef" data-f="time" value="15:45"><input class="ef" data-f="name" value="🏛️ Plaza de los Héroes"><textarea class="ef" data-f="desc">Estatuas de los Caudillos Magiares. Parque Városliget al lado. ~45 min. Gratis.</textarea><input class="ef" data-f="map" value="https://www.google.com/maps/search/Plaza+Heroes+Budapest+Hosok+tere"><div class="eas"><button type="button" class="bs bsave" onclick="SE('vie-7')">✅ Guardar</button><button type="button" class="bs bcanc" onclick="CE('vie-7')">Cancelar</button><button type="button" class="bs bdel" onclick="DEL('vie-7')">🗑 Eliminar</button></div></div>
+      </div>
+    </div>
+
+    <div class="trn"><div class="trn-pill">🚶 10 min a pie — Desde la Plaza en dirección sur por Dózsa György út</div></div>
+
+    <div class="ti" id="vie-8">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1"><span class="ct">16:45</span><span class="cn">🏟️ Puskás Aréna</span><button type="button" class="eico" onclick="OE('vie-8')">✏️</button><button type="button" class="ckb" onclick="CD('vie-8')">⬜</button></div>
+        <div class="cd">El estadio más moderno de Europa (2019), capacidad 67.000 personas. Fachada exterior espectacular con los grabados de la historia del fútbol húngaro. Perfecto para fotos. ~40 min. Si hay partido podéis comprar entradas en su web (suelen ser baratos). Sin partido: paseo exterior gratuito.</div>
+        <div class="ctags"><span class="tag ts">🏟️ ~40 min</span><span class="tag te">Gratis exterior</span></div>
+        <div class="clnks"><a href="https://www.google.com/maps/search/Puskás+Aréna+Budapest" target="_blank" class="lnk lm">📍 Maps</a></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-vie-8" placeholder="0.00" min="0" step="0.01" onchange="saveExp('vie-8')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-vie-8"><input class="ef" data-f="time" value="16:45"><input class="ef" data-f="name" value="🏟️ Puskás Aréna"><textarea class="ef" data-f="desc">Estadio más moderno de Europa (2019), 67.000 personas. Fachada espectacular. ~40 min. Gratis exterior.</textarea><input class="ef" data-f="map" value="https://www.google.com/maps/search/Puskás+Aréna+Budapest"><div class="eas"><button type="button" class="bs bsave" onclick="SE('vie-8')">✅ Guardar</button><button type="button" class="bs bcanc" onclick="CE('vie-8')">Cancelar</button><button type="button" class="bs bdel" onclick="DEL('vie-8')">🗑 Eliminar</button></div></div>
+      </div>
+    </div>
+
+    <div class="trn"><div class="trn-pill">🚇 M2 desde Stadionok → Keleti · luego M1 → Opera · 10 min total</div></div>
+
+    <div class="ti" id="vie-9">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1"><span class="ct">17:45</span><span class="cn">🏠 Vuelta al apartamento — Ducharse y cambiarse</span><button type="button" class="eico" onclick="OE('vie-9')">✏️</button><button type="button" class="ckb" onclick="CD('vie-9')">⬜</button></div>
+        <div class="cd">Tiempo de sobra para ducharse, cambiarse y prepararse para la noche. Salir hacia las 20:30 para cenar antes de los bares.</div>
+        <div class="ctags"><span class="tag tw">🏠 Nagymező utca 22-24</span></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-vie-9" placeholder="0.00" min="0" step="0.01" onchange="saveExp('vie-9')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-vie-9"><input class="ef" data-f="time" value="17:45"><input class="ef" data-f="name" value="🏠 Vuelta al apartamento — Ducharse y cambiarse"><textarea class="ef" data-f="desc">Tiempo para ducharse y cambiarse. Salir hacia las 20:30.</textarea><input class="ef" data-f="map"><div class="eas"><button type="button" class="bs bsave" onclick="SE('vie-9')">✅ Guardar</button><button type="button" class="bs bcanc" onclick="CE('vie-9')">Cancelar</button><button type="button" class="bs bdel" onclick="DEL('vie-9')">🗑 Eliminar</button></div></div>
+      </div>
+    </div>
+
+    <div class="trn"><div class="trn-pill">🚶 10 min a pie — Por Kazinczy utca hasta el Barrio Judío</div></div>
+
+    <div class="ti" id="vie-10">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1"><span class="ct">20:30</span><span class="cn">🌮 Cena — Karaván Street Food</span><button type="button" class="eico" onclick="OE('vie-10')">✏️</button><button type="button" class="ckb" onclick="CD('vie-10')">⬜</button></div>
+        <div class="cd">Furgonetas de street food en Kazinczy utca junto a Szimpla. Lángos, hamburguesas, platos húngaros. Cena rápida antes de empezar la ruta. ~8-12€/persona.</div>
+        <div class="ctags"><span class="tag tf">🌮 Street Food</span><span class="tag te">~8-12€/p</span></div>
+        <div class="clnks"><a href="https://www.google.com/maps/search/Karaván+Budapest+Kazinczy+utca" target="_blank" class="lnk lm">📍 Maps</a></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-vie-10" placeholder="0.00" min="0" step="0.01" onchange="saveExp('vie-10')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-vie-10"><input class="ef" data-f="time" value="20:30"><input class="ef" data-f="name" value="🌮 Cena — Karaván Street Food"><textarea class="ef" data-f="desc">Furgonetas de street food en Kazinczy utca. ~8-12€/persona.</textarea><input class="ef" data-f="map" value="https://www.google.com/maps/search/Karaván+Budapest+Kazinczy+utca"><div class="eas"><button type="button" class="bs bsave" onclick="SE('vie-10')">✅ Guardar</button><button type="button" class="bs bcanc" onclick="CE('vie-10')">Cancelar</button><button type="button" class="bs bdel" onclick="DEL('vie-10')">🗑 Eliminar</button></div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RUIN BARS BLOCK -->
+  <div class="rbc">
+    <div class="rbc-hdr">🍺 RUTA 7 RUIN BARS — Viernes noche · Todos en 600m · Orden geográfico</div>
+    <div style="font-size:.72rem;color:rgba(255,255,255,.6);margin-bottom:10px;">Cerveza ~1.200-1.600 HUF (3-4€) · Combinado ~2.500-3.500 HUF · Sin código de vestimenta</div>
+    <div class="rb-item" style="border-color:var(--gold)"><div class="rb-stop" style="color:var(--gold)">PARADA 1 · 21:00</div><div class="rb-name">Szimpla Kert ⭐ El Original</div><div class="rb-desc">El abuelo de todos los ruin bars (2002). Laberinto psicodélico: Trabants, bañeras, grafitis, patios. Llegar antes de las 21h. Abre hasta las 4h.</div><div class="rb-addr">📍 Kazinczy utca 14 · <a href="https://www.google.com/maps/search/Szimpla+Kert+Budapest+Kazinczy+14" target="_blank">Maps →</a></div></div>
+    <div class="rb-item" style="border-color:#88ffaa"><div class="rb-stop" style="color:#88ffaa">PARADA 2 · 21:50 · 🚶 5 min</div><div class="rb-name">Ellátó Kert 🌿 El Auténtico</div><div class="rb-desc">Jardín enorme al aire libre, mesas de ping-pong, arte urbano, conciertos en directo los viernes. Muy local, menos turístico que Szimpla. El favorito de los budapestinos.</div><div class="rb-addr">📍 Klauzál tér 11 · <a href="https://www.google.com/maps/search/Ellátó+Kert+Budapest+Klauzál+tér" target="_blank">Maps →</a></div></div>
+    <div class="rb-item" style="border-color:#ffaa44"><div class="rb-stop" style="color:#ffaa44">PARADA 3 · 22:40 · 🚶 8 min</div><div class="rb-name">Corvintető 🎨 El de las Plantas y Vistas</div><div class="rb-desc">En la azotea de un antiguo almacén de 6 plantas. Cada planta tiene diferente ambiente y decoración. Exposiciones de arte contemporáneo, bar techno, terraza en el techo con vistas panorámicas a Budapest. Los viernes hay DJs y eventos culturales. El más espectacular visualmente.</div><div class="rb-addr">📍 Blaha Lujza tér 1-2 (azotea) · <a href="https://www.google.com/maps/search/Corvintető+Budapest+Blaha+Lujza+tér" target="_blank">Maps →</a></div></div>
+    <div class="rb-item" style="border-color:#ff6688"><div class="rb-stop" style="color:#ff6688">PARADA 4 · 23:30 · 🚶 5 min</div><div class="rb-name">Doboz 📦 El Artístico</div><div class="rb-desc">2 plantas + jardín interior. Famoso por el King Kong gigante colgado de un árbol y sus instalaciones de arte contemporáneo. Ambiente de club, música más fuerte. Abre hasta las 6h. Posible entrada ~1.000 HUF hombres a partir de medianoche.</div><div class="rb-addr">📍 Klauzál utca 10 · <a href="https://www.google.com/maps/search/Doboz+Budapest+Klauzál+10" target="_blank">Maps →</a></div></div>
+    <div class="rb-item" style="border-color:#bb88ff"><div class="rb-stop" style="color:#bb88ff">PARADA 5 · 00:20 · 🚶 3 min</div><div class="rb-name">Instant-Fogas 🔥 El Coloso</div><div class="rb-desc">El ruin bar más grande de Europa: 1.200m², 7 salas en 2 edificios conectados, 18 barras. DJs hasta las 6h. Techno, electrónica, rock, latina — cada sala su rollo. El lugar donde acaban todas las noches del Distrito VII.</div><div class="rb-addr">📍 Akácfa utca 51 · <a href="https://www.google.com/maps/search/Instant+Fogas+Budapest+Akácfa+51" target="_blank">Maps →</a></div></div>
+    <div class="rb-item" style="border-color:#44aaff"><div class="rb-stop" style="color:#44aaff">PARADA 6 · 01:15 · 🚶 4 min</div><div class="rb-name">Morrison's 2 🎸 El de las 3 Plantas</div><div class="rb-desc">3 plantas cada una con música diferente: pop, rock 80-90s y electrónica. Exposiciones de fotografía en las paredes. Muy popular entre locales. Abre hasta las 5h. Puede tener entrada ~1.500 HUF.</div><div class="rb-addr">📍 Szent István körút 11 · <a href="https://www.google.com/maps/search/Morrisons+2+Budapest+Szent+István+körút" target="_blank">Maps →</a></div></div>
+    <div class="rb-item" style="border-color:#ffdd44"><div class="rb-stop" style="color:#ffdd44">PARADA 7 · 02:00 · 🚶 6 min</div><div class="rb-name">Anker't 🍻 El Patio Secreto</div><div class="rb-desc">Patio interior enorme escondido en un patio de manzana. Arte urbano en todas las paredes, ambiente muy local y alternativo. El menos conocido por turistas y el más auténtico de todos. Perfecto para terminar la noche tranquilos.</div><div class="rb-addr">📍 Paulay Ede utca 33 · <a href="https://www.google.com/maps/search/Anker+t+Budapest+Paulay+Ede+utca" target="_blank">Maps →</a></div></div>
+    <div class="rb-foot">
+      🏠 <strong style="color:rgba(255,255,255,.8)">Vuelta al apartamento:</strong><br>
+      🚋 <strong>Tranvía 4/6</strong> desde Blaha Lujza tér (5 min andando desde Anker't) → Oktogon · 24h cada pocos minutos · <strong>10 min</strong><br>
+      🚕 <strong>Bolt (Uber)</strong> si son las 3h+ · Descargar app Bolt · ~10-12€ los 4 · Más rápido y directo
+    </div>
+  </div>
+
+  <div class="tl" id="tl-vie-bars">
+    <div class="ti" id="vie-11">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1"><span class="ct">21:00</span><span class="cn">🥇 Parada 1 — Szimpla Kert</span><button type="button" class="eico" onclick="OE('vie-11')">✏️</button><button type="button" class="ckb" onclick="CD('vie-11')">⬜</button></div>
+        <div class="cd">El original. Laberinto psicodélico, Trabants, bañeras, patios. Llegar antes de las 21h. Kazinczy 14.</div>
+        <div class="ctags"><span class="tag tp">🍺 Hasta las 4h</span></div>
+        <div class="clnks"><a href="https://www.google.com/maps/search/Szimpla+Kert+Budapest+Kazinczy+14" target="_blank" class="lnk lm">📍 Maps</a></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-vie-11" placeholder="0.00" min="0" step="0.01" onchange="saveExp('vie-11')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-vie-11"><input class="ef" data-f="time" value="21:00"><input class="ef" data-f="name" value="🥇 Parada 1 — Szimpla Kert"><textarea class="ef" data-f="desc">El original. Kazinczy 14.</textarea><input class="ef" data-f="map" value="https://www.google.com/maps/search/Szimpla+Kert+Budapest+Kazinczy+14"><div class="eas"><button type="button" class="bs bsave" onclick="SE('vie-11')">✅ Guardar</button><button type="button" class="bs bcanc" onclick="CE('vie-11')">Cancelar</button><button type="button" class="bs bdel" onclick="DEL('vie-11')">🗑 Eliminar</button></div></div>
+      </div>
+    </div>
+    <div class="trn"><div class="trn-pill">🚶 5 min a pie — Kazinczy → Klauzál tér</div></div>
+    <div class="ti" id="vie-12">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1"><span class="ct">21:50</span><span class="cn">🌿 Parada 2 — Ellátó Kert</span><button type="button" class="eico" onclick="OE('vie-12')">✏️</button><button type="button" class="ckb" onclick="CD('vie-12')">⬜</button></div>
+        <div class="cd">Jardín enorme, conciertos en directo viernes, ping-pong, arte urbano. El más local y auténtico. Klauzál tér 11.</div>
+        <div class="ctags"><span class="tag tp">🌿 Local · Klauzál 11</span></div>
+        <div class="clnks"><a href="https://www.google.com/maps/search/Ellátó+Kert+Budapest+Klauzál+tér" target="_blank" class="lnk lm">📍 Maps</a></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-vie-12" placeholder="0.00" min="0" step="0.01" onchange="saveExp('vie-12')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-vie-12"><input class="ef" data-f="time" value="21:50"><input class="ef" data-f="name" value="🌿 Parada 2 — Ellátó Kert"><textarea class="ef" data-f="desc">Jardín enorme, conciertos, ping-pong. Klauzál tér 11.</textarea><input class="ef" data-f="map" value="https://www.google.com/maps/search/Ellátó+Kert+Budapest+Klauzál+tér"><div class="eas"><button type="button" class="bs bsave" onclick="SE('vie-12')">✅ Guardar</button><button type="button" class="bs bcanc" onclick="CE('vie-12')">Cancelar</button><button type="button" class="bs bdel" onclick="DEL('vie-12')">🗑 Eliminar</button></div></div>
+      </div>
+    </div>
+    <div class="trn"><div class="trn-pill">🚶 8 min a pie — Por Rákóczi tér hacia Blaha Lujza tér</div></div>
+    <div class="ti" id="vie-13">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1"><span class="ct">22:40</span><span class="cn">🎨 Parada 3 — Corvintető</span><button type="button" class="eico" onclick="OE('vie-13')">✏️</button><button type="button" class="ckb" onclick="CD('vie-13')">⬜</button></div>
+        <div class="cd">6 plantas, cada una diferente. Terraza en el techo con vistas panorámicas a Budapest. Exposiciones de arte, DJs viernes. El más espectacular visualmente. Blaha Lujza tér 1-2.</div>
+        <div class="ctags"><span class="tag tp">🎨 6 plantas · Vistas</span></div>
+        <div class="clnks"><a href="https://www.google.com/maps/search/Corvintető+Budapest+Blaha+Lujza+tér" target="_blank" class="lnk lm">📍 Maps</a></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-vie-13" placeholder="0.00" min="0" step="0.01" onchange="saveExp('vie-13')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-vie-13"><input class="ef" data-f="time" value="22:40"><input class="ef" data-f="name" value="🎨 Parada 3 — Corvintető"><textarea class="ef" data-f="desc">6 plantas distintas. Terraza con vistas panorámicas a Budapest. Exposiciones, DJs viernes. Blaha Lujza tér 1-2.</textarea><input class="ef" data-f="map" value="https://www.google.com/maps/search/Corvintető+Budapest+Blaha+Lujza+tér"><div class="eas"><button type="button" class="bs bsave" onclick="SE('vie-13')">✅ Guardar</button><button type="button" class="bs bcanc" onclick="CE('vie-13')">Cancelar</button><button type="button" class="bs bdel" onclick="DEL('vie-13')">🗑 Eliminar</button></div></div>
+      </div>
+    </div>
+    <div class="trn"><div class="trn-pill">🚶 5 min a pie — Blaha Lujza tér → Klauzál utca</div></div>
+    <div class="ti" id="vie-14">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1"><span class="ct">23:30</span><span class="cn">📦 Parada 4 — Doboz</span><button type="button" class="eico" onclick="OE('vie-14')">✏️</button><button type="button" class="ckb" onclick="CD('vie-14')">⬜</button></div>
+        <div class="cd">2 plantas + jardín. King Kong gigante colgado de un árbol. Arte contemporáneo por todas partes. Club, música fuerte. Hasta las 6h. Posible entrada ~1.000 HUF hombres a partir de medianoche.</div>
+        <div class="ctags"><span class="tag tp">📦 2 plantas · Arte</span><span class="tag tw">⚠ Posible entrada</span></div>
+        <div class="clnks"><a href="https://www.google.com/maps/search/Doboz+Budapest+Klauzál+10" target="_blank" class="lnk lm">📍 Maps</a></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-vie-14" placeholder="0.00" min="0" step="0.01" onchange="saveExp('vie-14')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-vie-14"><input class="ef" data-f="time" value="23:30"><input class="ef" data-f="name" value="📦 Parada 4 — Doboz"><textarea class="ef" data-f="desc">2 plantas + jardín. King Kong gigante. Club, música fuerte. Klauzál 10.</textarea><input class="ef" data-f="map" value="https://www.google.com/maps/search/Doboz+Budapest+Klauzál+10"><div class="eas"><button type="button" class="bs bsave" onclick="SE('vie-14')">✅ Guardar</button><button type="button" class="bs bcanc" onclick="CE('vie-14')">Cancelar</button><button type="button" class="bs bdel" onclick="DEL('vie-14')">🗑 Eliminar</button></div></div>
+      </div>
+    </div>
+    <div class="trn"><div class="trn-pill">🚶 3 min a pie — Klauzál → Akácfa utca</div></div>
+    <div class="ti" id="vie-15">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1"><span class="ct">00:20</span><span class="cn">🔥 Parada 5 — Instant-Fogas</span><button type="button" class="eico" onclick="OE('vie-15')">✏️</button><button type="button" class="ckb" onclick="CD('vie-15')">⬜</button></div>
+        <div class="cd">El más grande de Europa. 7 salas en 2 edificios conectados, 18 barras, DJs hasta las 6h. Techno, electrónica, rock, latina. Akácfa 51.</div>
+        <div class="ctags"><span class="tag tp">🔥 7 salas · Hasta 6h</span></div>
+        <div class="clnks"><a href="https://www.google.com/maps/search/Instant+Fogas+Budapest+Akácfa+51" target="_blank" class="lnk lm">📍 Maps</a></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-vie-15" placeholder="0.00" min="0" step="0.01" onchange="saveExp('vie-15')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-vie-15"><input class="ef" data-f="time" value="00:20"><input class="ef" data-f="name" value="🔥 Parada 5 — Instant-Fogas"><textarea class="ef" data-f="desc">7 salas, 18 barras. DJs hasta las 6h. Akácfa 51.</textarea><input class="ef" data-f="map" value="https://www.google.com/maps/search/Instant+Fogas+Budapest+Akácfa+51"><div class="eas"><button type="button" class="bs bsave" onclick="SE('vie-15')">✅ Guardar</button><button type="button" class="bs bcanc" onclick="CE('vie-15')">Cancelar</button><button type="button" class="bs bdel" onclick="DEL('vie-15')">🗑 Eliminar</button></div></div>
+      </div>
+    </div>
+    <div class="trn"><div class="trn-pill">🚶 4 min a pie — Por Akácfa → Nagy Diófa utca → Szent István körút</div></div>
+    <div class="ti" id="vie-16">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1"><span class="ct">01:15</span><span class="cn">🎸 Parada 6 — Morrison's 2</span><button type="button" class="eico" onclick="OE('vie-16')">✏️</button><button type="button" class="ckb" onclick="CD('vie-16')">⬜</button></div>
+        <div class="cd">3 plantas con música diferente en cada una: pop, rock 80-90s y electrónica. Exposiciones de fotografía en las paredes. Muy popular entre locales. Hasta las 5h. Posible entrada ~1.500 HUF.</div>
+        <div class="ctags"><span class="tag tp">🎸 3 plantas · Rock/Pop</span><span class="tag tw">⚠ Posible entrada</span></div>
+        <div class="clnks"><a href="https://www.google.com/maps/search/Morrisons+2+Budapest+Szent+István+körút" target="_blank" class="lnk lm">📍 Maps</a></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-vie-16" placeholder="0.00" min="0" step="0.01" onchange="saveExp('vie-16')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-vie-16"><input class="ef" data-f="time" value="01:15"><input class="ef" data-f="name" value="🎸 Parada 6 — Morrison's 2"><textarea class="ef" data-f="desc">3 plantas, música diferente en cada una. Exposiciones de fotografía. Hasta las 5h. Szent István körút 11.</textarea><input class="ef" data-f="map" value="https://www.google.com/maps/search/Morrisons+2+Budapest+Szent+István+körút"><div class="eas"><button type="button" class="bs bsave" onclick="SE('vie-16')">✅ Guardar</button><button type="button" class="bs bcanc" onclick="CE('vie-16')">Cancelar</button><button type="button" class="bs bdel" onclick="DEL('vie-16')">🗑 Eliminar</button></div></div>
+      </div>
+    </div>
+    <div class="trn"><div class="trn-pill">🚶 6 min a pie — Por Szent István körút → Paulay Ede utca</div></div>
+    <div class="ti" id="vie-17">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1"><span class="ct">02:00</span><span class="cn">🍻 Parada 7 — Anker't</span><button type="button" class="eico" onclick="OE('vie-17')">✏️</button><button type="button" class="ckb" onclick="CD('vie-17')">⬜</button></div>
+        <div class="cd">Patio interior enorme escondido en un patio de manzana. Arte urbano en todas las paredes, ambiente muy local y alternativo. El menos conocido por turistas y el más auténtico de todos. Perfecto para terminar la noche. Paulay Ede utca 33.</div>
+        <div class="ctags"><span class="tag tp">🍻 Patio secreto · Auténtico</span></div>
+        <div class="clnks"><a href="https://www.google.com/maps/search/Anker+t+Budapest+Paulay+Ede+utca+33" target="_blank" class="lnk lm">📍 Maps</a></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-vie-17" placeholder="0.00" min="0" step="0.01" onchange="saveExp('vie-17')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-vie-17"><input class="ef" data-f="time" value="02:00"><input class="ef" data-f="name" value="🍻 Parada 7 — Anker't"><textarea class="ef" data-f="desc">Patio interior enorme. Arte urbano. El más auténtico. Paulay Ede utca 33.</textarea><input class="ef" data-f="map" value="https://www.google.com/maps/search/Anker+t+Budapest+Paulay+Ede+utca+33"><div class="eas"><button type="button" class="bs bsave" onclick="SE('vie-17')">✅ Guardar</button><button type="button" class="bs bcanc" onclick="CE('vie-17')">Cancelar</button><button type="button" class="bs bdel" onclick="DEL('vie-17')">🗑 Eliminar</button></div></div>
+      </div>
+    </div>
+    <div class="trn"><div class="trn-pill">🏠 Vuelta: 🚋 Tranvía 4/6 desde Blaha Lujza tér (5 min andando) → Oktogon · 24h · 10 min &nbsp;|&nbsp; 🚕 Bolt si son las 3h+ · ~10-12€ los 4</div></div>
+  </div>
+
+  <button type="button" class="addbtn" onclick="TAF('add-vie')">＋ Añadir parada al viernes</button>
+  <div class="addfrm" id="add-vie">
+    <h4>➕ Nueva parada — Viernes</h4>
+    <label>Hora</label><input type="text" id="add-vie-time" placeholder="ej. 15:00">
+    <label>Nombre del sitio</label><input type="text" id="add-vie-name" placeholder="ej. 🏊 Baños Széchenyi">
+    <label>Descripción</label><textarea id="add-vie-desc" placeholder="Qué hacer, precio..."></textarea>
+    <label>Link Google Maps (opcional)</label><input type="url" id="add-vie-map">
+    <div class="afrm-acts">
+      <button type="button" class="bs bsave" onclick="AS('vie')">✅ Añadir</button>
+      <button type="button" class="bs bcanc" onclick="TAF('add-vie')">Cancelar</button>
+    </div>
+  </div>
+
+</div>
+<div class="pg" id="pg-sab">
+  <div class="dh"><div class="dn">S</div><div><div class="dt">Sábado 7 Junio 🛳️</div><div class="ds">Parlamento · Buda · New York Café · Crucero 22:00</div></div></div>
+  <div class="alert">💡 <strong>Estrategia:</strong> Mañana en Pest (Parlamento exterior, Zapatos del Danubio), tarde en Buda (Castillo, Bastión), New York Café de tarde, crucero Silverline 22:00 Dokk 11.</div>
+  <div class="mapsec">
+      <div class="map-links-box">
+        <div class="map-links-title">🗺️ Mapas del recorrido — Sábado</div>
+        <a href="https://www.google.com/maps/dir/Parlamento+Budapest/Zapatos+Danubio+Budapest/New+York+Cafe+Budapest/Castillo+Buda+Budapest/Bastion+Pescadores+Budapest/Március+15+tér+Budapest" target="_blank" class="map-direct-btn">🛣️ Ruta completa del día</a>
+        <a href="https://www.google.com/maps/search/Parlamento+Budapest+Kossuth+Lajos+tér" target="_blank" class="map-direct-btn">🏛️ Parlamento (exterior)</a>
+        <a href="https://www.google.com/maps/search/Shoes+on+the+Danube+Bank+Budapest" target="_blank" class="map-direct-btn">👟 Memorial Zapatos en el Danubio</a>
+        <a href="https://www.google.com/maps/search/New+York+Café+Budapest+Erzsébet+körút+9" target="_blank" class="map-direct-btn">☕ Café New York</a>
+        <a href="https://www.google.com/maps/search/Bastión+de+los+Pescadores+Budapest" target="_blank" class="map-direct-btn">🐟 Bastión de los Pescadores</a>
+        <a href="https://maps.app.goo.gl/n6c6QMwByJTZb3RC8" target="_blank" class="map-direct-btn map-highlight">🛳️ Muelle Silverline Cruises (Dokk 11)</a>
+      </div>
+    </div>
+  <div style="background:#fff;border:1px solid var(--cr2);border-radius:11px;padding:12px 14px;margin-bottom:12px;">
+    <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);font-weight:700;margin-bottom:9px;">💶 Precios orientativos — Sábado</div>
+    <table style="width:100%;border-collapse:collapse;font-size:.74rem;">
+      <tr style="border-bottom:1px solid var(--cr2);"><td style="padding:5px 4px;">☕ Desayuno</td><td style="text-align:right;font-weight:700;">600-1.200 Ft · <span style="color:var(--grn)">≈1,50-3€</span>/p</td></tr>
+      <tr style="border-bottom:1px solid var(--cr2);"><td style="padding:5px 4px;">🏛️ Parlamento exterior</td><td style="text-align:right;font-weight:700;"><span style="color:var(--grn)">Gratis</span></td></tr>
+      <tr style="border-bottom:1px solid var(--cr2);"><td style="padding:5px 4px;">👟 Memorial Zapatos Danubio</td><td style="text-align:right;font-weight:700;"><span style="color:var(--grn)">Gratis</span></td></tr>
+      <tr style="border-bottom:1px solid var(--cr2);"><td style="padding:5px 4px;">🍽️ Comida Hungarikum Bisztró</td><td style="text-align:right;font-weight:700;">4.800-6.000 Ft · <span style="color:var(--grn)">≈12-15€</span>/p</td></tr>
+      <tr style="border-bottom:1px solid var(--cr2);"><td style="padding:5px 4px;">☕ New York Café (café+postre)</td><td style="text-align:right;font-weight:700;">6.000-8.000 Ft · <span style="color:var(--grn)">≈15-20€</span>/p</td></tr>
+      <tr style="border-bottom:1px solid var(--cr2);"><td style="padding:5px 4px;">🏰 Castillo de Buda exterior</td><td style="text-align:right;font-weight:700;"><span style="color:var(--grn)">Gratis</span></td></tr>
+      <tr style="border-bottom:1px solid var(--cr2);"><td style="padding:5px 4px;">🚡 Funicular al Castillo (opcional)</td><td style="text-align:right;font-weight:700;">4.000 Ft · <span style="color:var(--grn)">≈10€</span>/p (ida)</td></tr>
+      <tr style="border-bottom:1px solid var(--cr2);"><td style="padding:5px 4px;">🐟 Bastión Pescadores exterior</td><td style="text-align:right;font-weight:700;"><span style="color:var(--grn)">Gratis</span></td></tr>
+      <tr style="border-bottom:1px solid var(--cr2);"><td style="padding:5px 4px;">🍴 Cena Ficzkó Papa</td><td style="text-align:right;font-weight:700;">3.200-4.800 Ft · <span style="color:var(--grn)">≈8-12€</span>/p</td></tr>
+      <tr style="border-bottom:1px solid var(--cr2);"><td style="padding:5px 4px;">🛳️ Crucero Silverline</td><td style="text-align:right;font-weight:700;">~8.000 Ft · <span style="color:var(--grn)">≈20€</span>/p (aprox)</td></tr>
+      <tr style="background:var(--gp);"><td style="padding:6px 4px;font-weight:700;">💰 Total estimado sábado/pareja</td><td style="text-align:right;font-weight:800;color:var(--dk2);">≈ <span style="font-size:.9rem;">90-115€</span></td></tr>
+    </table>
+  </div>
+  <div class="tl" id="tl-sab">
+    <div class="ti" id="sab-1">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1">
+          <span class="ct">09:00</span>
+          <span class="cn">☕ Desayuno y paseo Andrássy</span>
+          <button type="button" class="eico" onclick="OE('sab-1')">✏️</button>
+          <button type="button" class="ckb" onclick="CD('sab-1')">⬜</button>
+        </div>
+        <div class="cd">Paseo matutino por Andrássy UNESCO. Parada en panadería/café de camino.</div>
+        <div class="ctags"><span class="tag ts">🚶 Paseo</span></div>
+        
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-sab-1" placeholder="0.00" min="0" step="0.01" onchange="saveExp('sab-1')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-sab-1">
+          <input class="ef" data-f="time" value="09:00">
+          <input class="ef" data-f="name" value="☕ Desayuno y paseo Andrássy">
+          <textarea class="ef" data-f="desc">Paseo matutino por Andrássy UNESCO. Parada en panadería/café de camino.</textarea>
+          <input class="ef" data-f="map" value="">
+          <div class="eas">
+            <button type="button" class="bs bsave" onclick="SE('sab-1')">✅ Guardar</button>
+            <button type="button" class="bs bcanc" onclick="CE('sab-1')">Cancelar</button>
+            <button type="button" class="bs bdel" onclick="DEL('sab-1')">🗑 Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="trn"><div class="trn-pill">🚇 M1 → Deák tér · luego M2 → Kossuth Lajos tér · 12 min total</div></div>
+    <div class="ti" id="sab-2">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1">
+          <span class="ct">10:00</span>
+          <span class="cn">🏛️ Parlamento — Paseo exterior</span>
+          <button type="button" class="eico" onclick="OE('sab-2')">✏️</button>
+          <button type="button" class="ckb" onclick="CD('sab-2')">⬜</button>
+        </div>
+        <div class="cd">Plaza Kossuth Lajos. 268m de fachada neogótica. Impresionante. Sin entrada, solo paseo exterior.</div>
+        <div class="ctags"><span class="tag ts">🏛️ Exterior</span><span class="tag te">Gratis</span></div>
+        <div class="clnks"><a href="https://maps.google.com/?q=Parlamento+Budapest+Kossuth+Lajos+tér" target="_blank" class="lnk lm">📍 Maps</a></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-sab-2" placeholder="0.00" min="0" step="0.01" onchange="saveExp('sab-2')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-sab-2">
+          <input class="ef" data-f="time" value="10:00">
+          <input class="ef" data-f="name" value="🏛️ Parlamento — Paseo exterior">
+          <textarea class="ef" data-f="desc">Plaza Kossuth Lajos. 268m de fachada neogótica. Impresionante. Sin entrada, solo paseo exterior.</textarea>
+          <input class="ef" data-f="map" value="https://maps.google.com/?q=Parlamento+Budapest+Kossuth+Lajos+tér">
+          <div class="eas">
+            <button type="button" class="bs bsave" onclick="SE('sab-2')">✅ Guardar</button>
+            <button type="button" class="bs bcanc" onclick="CE('sab-2')">Cancelar</button>
+            <button type="button" class="bs bdel" onclick="DEL('sab-2')">🗑 Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="trn"><div class="trn-pill">🚶 3 min — Bajar a la ribera · 200m al sur del Parlamento</div></div>
+    <div class="ti" id="sab-3">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1">
+          <span class="ct">10:30</span>
+          <span class="cn">👟 Memorial Zapatos en el Danubio</span>
+          <button type="button" class="eico" onclick="OE('sab-3')">✏️</button>
+          <button type="button" class="ckb" onclick="CD('sab-3')">⬜</button>
+        </div>
+        <div class="cd">Memorial a los judíos fusilados en el río durante la IIGM. Muy emotivo. Gratis.</div>
+        <div class="ctags"><span class="tag ts">👟 Gratis</span><span class="tag te">Gratis</span></div>
+        <div class="clnks"><a href="https://maps.google.com/?q=Zapatos+en+el+Danubio+Memorial+Budapest" target="_blank" class="lnk lm">📍 Maps</a></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-sab-3" placeholder="0.00" min="0" step="0.01" onchange="saveExp('sab-3')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-sab-3">
+          <input class="ef" data-f="time" value="10:30">
+          <input class="ef" data-f="name" value="👟 Memorial Zapatos en el Danubio">
+          <textarea class="ef" data-f="desc">Memorial a los judíos fusilados en el río durante la IIGM. Muy emotivo. Gratis.</textarea>
+          <input class="ef" data-f="map" value="https://maps.google.com/?q=Zapatos+en+el+Danubio+Memorial+Budapest">
+          <div class="eas">
+            <button type="button" class="bs bsave" onclick="SE('sab-3')">✅ Guardar</button>
+            <button type="button" class="bs bcanc" onclick="CE('sab-3')">Cancelar</button>
+            <button type="button" class="bs bdel" onclick="DEL('sab-3')">🗑 Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="trn"><div class="trn-pill">🚇 M2 desde Kossuth tér → Astoria · 4 min · o a pie 25 min</div></div>
+    <div class="ti" id="sab-4">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1">
+          <span class="ct">13:00</span>
+          <span class="cn">🍽️ Comida — Hungarikum Bisztró</span>
+          <button type="button" class="eico" onclick="OE('sab-4')">✏️</button>
+          <button type="button" class="ckb" onclick="CD('sab-4')">⬜</button>
+        </div>
+        <div class="cd">Cocina húngara típica, raciones generosas. Kazinczy utca 5. Reservar mesa. ~12-15€/p.</div>
+        <div class="ctags"><span class="tag tf">🥘 Húngaro típico</span><span class="tag te">~12-15€/p</span><span class="tag tw">⚠ Reservar mesa</span></div>
+        <div class="clnks"><a href="https://maps.google.com/?q=Hungarikum+Bisztro+Budapest+Kazinczy+utca+5" target="_blank" class="lnk lm">📍 Maps</a></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-sab-4" placeholder="0.00" min="0" step="0.01" onchange="saveExp('sab-4')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-sab-4">
+          <input class="ef" data-f="time" value="13:00">
+          <input class="ef" data-f="name" value="🍽️ Comida — Hungarikum Bisztró">
+          <textarea class="ef" data-f="desc">Cocina húngara típica, raciones generosas. Kazinczy utca 5. Reservar mesa. ~12-15€/p.</textarea>
+          <input class="ef" data-f="map" value="https://maps.google.com/?q=Hungarikum+Bisztro+Budapest+Kazinczy+utca+5">
+          <div class="eas">
+            <button type="button" class="bs bsave" onclick="SE('sab-4')">✅ Guardar</button>
+            <button type="button" class="bs bcanc" onclick="CE('sab-4')">Cancelar</button>
+            <button type="button" class="bs bdel" onclick="DEL('sab-4')">🗑 Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="trn"><div class="trn-pill">🚶 8 min — Kazinczy → Rákóczi út → Erzsébet körút nº9</div></div>
+    <div class="ti" id="sab-5">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1">
+          <span class="ct">14:30</span>
+          <span class="cn">☕ Café New York (Erzsébet körút 9)</span>
+          <button type="button" class="eico" onclick="OE('sab-5')">✏️</button>
+          <button type="button" class="ckb" onclick="CD('sab-5')">⬜</button>
+        </div>
+        <div class="cd">El café más lujoso del mundo (1894). Columnas de mármol, frescos, Murano. Solo café + Torta Dobos. ~15-20€/p. Sin reserva de día.</div>
+        <div class="ctags"><span class="tag ts">☕ Experiencia única</span><span class="tag te">~15-20€ café+postre</span></div>
+        <div class="clnks"><a href="https://maps.google.com/?q=New+York+Café+Budapest+Erzsébet+körút+9" target="_blank" class="lnk lm">📍 Maps</a></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-sab-5" placeholder="0.00" min="0" step="0.01" onchange="saveExp('sab-5')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-sab-5">
+          <input class="ef" data-f="time" value="14:30">
+          <input class="ef" data-f="name" value="☕ Café New York (Erzsébet körút 9)">
+          <textarea class="ef" data-f="desc">El café más lujoso del mundo (1894). Columnas de mármol, frescos, Murano. Solo café + Torta Dobos. ~15-20€/p. Sin reserva de día.</textarea>
+          <input class="ef" data-f="map" value="https://maps.google.com/?q=New+York+Café+Budapest+Erzsébet+körút+9">
+          <div class="eas">
+            <button type="button" class="bs bsave" onclick="SE('sab-5')">✅ Guardar</button>
+            <button type="button" class="bs bcanc" onclick="CE('sab-5')">Cancelar</button>
+            <button type="button" class="bs bdel" onclick="DEL('sab-5')">🗑 Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="trn"><div class="trn-pill">🚇 M2 desde Blaha Lujza tér → Batthyány tér · 6 min · luego funicular (~10€) o a pie al Castillo</div></div>
+    <div class="ti" id="sab-6">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1">
+          <span class="ct">16:00</span>
+          <span class="cn">🏰 Castillo de Buda y Barrio del Castillo</span>
+          <button type="button" class="eico" onclick="OE('sab-6')">✏️</button>
+          <button type="button" class="ckb" onclick="CD('sab-6')">⬜</button>
+        </div>
+        <div class="cd">UNESCO. Palacio Real, Iglesia de Matías, calles medievales. ~2h de paseo. Funicular opcional.</div>
+        <div class="ctags"><span class="tag ts">🏰 2h · UNESCO</span><span class="tag te">Gratis exterior</span></div>
+        <div class="clnks"><a href="https://maps.google.com/?q=Castillo+de+Buda+Budapest" target="_blank" class="lnk lm">📍 Maps</a></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-sab-6" placeholder="0.00" min="0" step="0.01" onchange="saveExp('sab-6')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-sab-6">
+          <input class="ef" data-f="time" value="16:00">
+          <input class="ef" data-f="name" value="🏰 Castillo de Buda y Barrio del Castillo">
+          <textarea class="ef" data-f="desc">UNESCO. Palacio Real, Iglesia de Matías, calles medievales. ~2h de paseo. Funicular opcional.</textarea>
+          <input class="ef" data-f="map" value="https://maps.google.com/?q=Castillo+de+Buda+Budapest">
+          <div class="eas">
+            <button type="button" class="bs bsave" onclick="SE('sab-6')">✅ Guardar</button>
+            <button type="button" class="bs bcanc" onclick="CE('sab-6')">Cancelar</button>
+            <button type="button" class="bs bdel" onclick="DEL('sab-6')">🗑 Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="trn"><div class="trn-pill">🚶 5 min — Por calles medievales hasta detrás de la Iglesia de Matías</div></div>
+    <div class="ti" id="sab-7">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1">
+          <span class="ct">17:30</span>
+          <span class="cn">🐟 Bastión de los Pescadores</span>
+          <button type="button" class="eico" onclick="OE('sab-7')">✏️</button>
+          <button type="button" class="ckb" onclick="CD('sab-7')">⬜</button>
+        </div>
+        <div class="cd">Las mejores vistas de Budapest: Parlamento, puentes, el Danubio. Perfecto al atardecer. Gratis exterior.</div>
+        <div class="ctags"><span class="tag ts">📸 Vistas</span><span class="tag te">Gratis exterior</span></div>
+        <div class="clnks"><a href="https://maps.google.com/?q=Bastión+de+los+Pescadores+Budapest" target="_blank" class="lnk lm">📍 Maps</a></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-sab-7" placeholder="0.00" min="0" step="0.01" onchange="saveExp('sab-7')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-sab-7">
+          <input class="ef" data-f="time" value="17:30">
+          <input class="ef" data-f="name" value="🐟 Bastión de los Pescadores">
+          <textarea class="ef" data-f="desc">Las mejores vistas de Budapest: Parlamento, puentes, el Danubio. Perfecto al atardecer. Gratis exterior.</textarea>
+          <input class="ef" data-f="map" value="https://maps.google.com/?q=Bastión+de+los+Pescadores+Budapest">
+          <div class="eas">
+            <button type="button" class="bs bsave" onclick="SE('sab-7')">✅ Guardar</button>
+            <button type="button" class="bs bcanc" onclick="CE('sab-7')">Cancelar</button>
+            <button type="button" class="bs bdel" onclick="DEL('sab-7')">🗑 Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="trn"><div class="trn-pill">🚌 Bus 16 o 16A desde Dísz tér → Deák tér · 12 min</div></div>
+    <div class="ti" id="sab-8">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1">
+          <span class="ct">19:30</span>
+          <span class="cn">🍴 Cena ligera — Ficzkó Papa (Nyugati tér 7)</span>
+          <button type="button" class="eico" onclick="OE('sab-8')">✏️</button>
+          <button type="button" class="ckb" onclick="CD('sab-8')">⬜</button>
+        </div>
+        <div class="cd">Comida húngara rápida y sabrosa. ~8-12€/persona. Espacio para las bebidas del barco.</div>
+        <div class="ctags"><span class="tag tf">🍴 Cena rápida</span><span class="tag te">~8-12€/p</span></div>
+        <div class="clnks"><a href="https://maps.google.com/?q=Ficzkó+Papa+Budapest+Nyugati+tér+7" target="_blank" class="lnk lm">📍 Maps</a></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-sab-8" placeholder="0.00" min="0" step="0.01" onchange="saveExp('sab-8')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-sab-8">
+          <input class="ef" data-f="time" value="19:30">
+          <input class="ef" data-f="name" value="🍴 Cena ligera — Ficzkó Papa (Nyugati tér 7)">
+          <textarea class="ef" data-f="desc">Comida húngara rápida y sabrosa. ~8-12€/persona. Espacio para las bebidas del barco.</textarea>
+          <input class="ef" data-f="map" value="https://maps.google.com/?q=Ficzkó+Papa+Budapest+Nyugati+tér+7">
+          <div class="eas">
+            <button type="button" class="bs bsave" onclick="SE('sab-8')">✅ Guardar</button>
+            <button type="button" class="bs bcanc" onclick="CE('sab-8')">Cancelar</button>
+            <button type="button" class="bs bdel" onclick="DEL('sab-8')">🗑 Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="trn"><div class="trn-pill">🚋 Tranvía 2 desde ribera → Március 15 tér · 8-12 min · luego 2-3 min a pie sur hasta Dokk 11</div></div>
+    <div class="ti" id="sab-9">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1">
+          <span class="ct">21:50</span>
+          <span class="cn">🛳️ Crucero Nocturno — Silverline Cruises · Dokk 11</span>
+          <button type="button" class="eico" onclick="OE('sab-9')">✏️</button>
+          <button type="button" class="ckb" onclick="CD('sab-9')">⬜</button>
+        </div>
+        <div class="cd">⚠️ Presentarse a las 21:50 (10 min antes de las 22:00). Dirección exacta: Jane Haining Rakpart Dokk 11, 1052 Budapest. Tranvía 2 → Március 15 tér, luego sur 2-3 min. Vistas: Parlamento, Castillo, Puente de las Cadenas.</div>
+        <div class="ctags"><span class="tag tb2">🛳️ 22:00 · Dokk 11</span><span class="tag tt">🚋 Tranvía 2</span><span class="tag tw">⚠ Llegar 21:50</span></div>
+        <div class="clnks"><a href="https://maps.app.goo.gl/n6c6QMwByJTZb3RC8" target="_blank" class="lnk lm">📍 Maps</a></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-sab-9" placeholder="0.00" min="0" step="0.01" onchange="saveExp('sab-9')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-sab-9">
+          <input class="ef" data-f="time" value="21:50">
+          <input class="ef" data-f="name" value="🛳️ Crucero Nocturno — Silverline Cruises · Dokk 11">
+          <textarea class="ef" data-f="desc">⚠️ Presentarse a las 21:50 (10 min antes de las 22:00). Dirección exacta: Jane Haining Rakpart Dokk 11, 1052 Budapest. Tranvía 2 → Március 15 tér, luego sur 2-3 min. Vistas: Parlamento, Castillo, Puente de las Cadenas.</textarea>
+          <input class="ef" data-f="map" value="https://maps.app.goo.gl/n6c6QMwByJTZb3RC8">
+          <div class="eas">
+            <button type="button" class="bs bsave" onclick="SE('sab-9')">✅ Guardar</button>
+            <button type="button" class="bs bcanc" onclick="CE('sab-9')">Cancelar</button>
+            <button type="button" class="bs bdel" onclick="DEL('sab-9')">🗑 Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type="button" class="addbtn" onclick="TAF('add-sab')">＋ Añadir parada al día</button>
+  <div class="addfrm" id="add-sab">
+    <h4>➕ Nueva parada</h4>
+    <label>Hora</label><input type="text" id="add-sab-time" placeholder="ej. 15:00">
+    <label>Nombre del sitio</label><input type="text" id="add-sab-name" placeholder="ej. 🏊 Baños Széchenyi">
+    <label>Descripción</label><textarea id="add-sab-desc" placeholder="Qué hacer, precio..."></textarea>
+    <label>Link Google Maps (opcional)</label><input type="url" id="add-sab-map">
+    <div class="afrm-acts">
+      <button type="button" class="bs bsave" onclick="AS('sab')">✅ Añadir</button>
+      <button type="button" class="bs bcanc" onclick="TAF('add-sab')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PAGE DOMINGO ═══ -->
+<div class="pg" id="pg-dom">
+  <div class="dh"><div class="dn">D</div><div><div class="dt">Domingo 8 Junio ✈️</div><div class="ds">Vuelo FR7368 · 12:20 BUD → 15:15 CAS · Salir antes 09:00</div></div></div>
+  <div class="alert">⚠️ <strong>Vuelo 12:20.</strong> Aeropuerto antes de las 10:00. Bus 100E ~40 min. Salir del apartamento antes de las 09:00 como máximo.</div>
+  <div class="mapsec">
+      <div class="map-links-box">
+        <div class="map-links-title">🗺️ Mapas del recorrido — Domingo</div>
+        <a href="https://www.google.com/maps/dir/Nagymező+utca+22+Budapest/Váci+utca+Budapest/Deák+Ferenc+tér+Budapest/Budapest+Franz+Liszt+International+Airport" target="_blank" class="map-direct-btn">🛣️ Ruta completa → aeropuerto</a>
+        <a href="https://www.google.com/maps/search/Váci+utca+Budapest+souvenirs" target="_blank" class="map-direct-btn">🛍️ Calle Váci (souvenirs)</a>
+        <a href="https://www.google.com/maps/search/Deák+Ferenc+tér+parada+bus+100E+Budapest" target="_blank" class="map-direct-btn">🚌 Parada Bus 100E (Deák tér)</a>
+      </div>
+    </div>
+  <div style="background:#fff;border:1px solid var(--cr2);border-radius:11px;padding:12px 14px;margin-bottom:12px;">
+    <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);font-weight:700;margin-bottom:9px;">💶 Precios orientativos — Domingo</div>
+    <table style="width:100%;border-collapse:collapse;font-size:.74rem;">
+      <tr style="border-bottom:1px solid var(--cr2);"><td style="padding:5px 4px;">☕ Desayuno</td><td style="text-align:right;font-weight:700;">600-1.200 Ft · <span style="color:var(--grn)">≈1,50-3€</span>/p</td></tr>
+      <tr style="border-bottom:1px solid var(--cr2);"><td style="padding:5px 4px;">🛍️ Souvenirs Váci utca</td><td style="text-align:right;font-weight:700;">Variable · <span style="color:var(--grn)">≈10-30€</span>/p orientativo</td></tr>
+      <tr style="border-bottom:1px solid var(--cr2);"><td style="padding:5px 4px;">🚌 Bus 100E aeropuerto</td><td style="text-align:right;font-weight:700;">2.200 Ft · <span style="color:var(--grn)">≈5,50€</span>/p</td></tr>
+      <tr style="background:var(--gp);"><td style="padding:6px 4px;font-weight:700;">💰 Total estimado domingo/pareja</td><td style="text-align:right;font-weight:800;color:var(--dk2);">≈ <span style="font-size:.9rem;">20-45€</span></td></tr>
+    </table>
+  </div>
+  <div class="tl" id="tl-dom">
+    <div class="ti" id="dom-1">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1">
+          <span class="ct">07:30</span>
+          <span class="cn">⏰ Preparar maletas · Check-out antes 10:00</span>
+          <button type="button" class="eico" onclick="OE('dom-1')">✏️</button>
+          <button type="button" class="ckb" onclick="CD('dom-1')">⬜</button>
+        </div>
+        <div class="cd">Dejar RFID en key-box. Apartamento ordenado. Recoger DNI/Pasaportes.</div>
+        <div class="ctags"><span class="tag tw">⚠ Out antes 10:00</span></div>
+        
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-dom-1" placeholder="0.00" min="0" step="0.01" onchange="saveExp('dom-1')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-dom-1">
+          <input class="ef" data-f="time" value="07:30">
+          <input class="ef" data-f="name" value="⏰ Preparar maletas · Check-out antes 10:00">
+          <textarea class="ef" data-f="desc">Dejar RFID en key-box. Apartamento ordenado. Recoger DNI/Pasaportes.</textarea>
+          <input class="ef" data-f="map" value="">
+          <div class="eas">
+            <button type="button" class="bs bsave" onclick="SE('dom-1')">✅ Guardar</button>
+            <button type="button" class="bs bcanc" onclick="CE('dom-1')">Cancelar</button>
+            <button type="button" class="bs bdel" onclick="DEL('dom-1')">🗑 Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="trn"><div class="trn-pill">🚇 M1 Opera → Vörösmarty tér · 5 min · o a pie 20 min por Andrássy</div></div>
+    <div class="ti" id="dom-2">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1">
+          <span class="ct">08:00</span>
+          <span class="cn">🛍️ Desayuno + Souvenirs rápidos (Váci utca)</span>
+          <button type="button" class="eico" onclick="OE('dom-2')">✏️</button>
+          <button type="button" class="ckb" onclick="CD('dom-2')">⬜</button>
+        </div>
+        <div class="cd">Paprika, pálinka, salami. Tiendas abren 9h domingos. ⚠️ Máx. hasta las 09:00.</div>
+        <div class="ctags"><span class="tag ts">🛍️ Rápido</span></div>
+        <div class="clnks"><a href="https://maps.google.com/?q=Váci+utca+Budapest" target="_blank" class="lnk lm">📍 Maps</a></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-dom-2" placeholder="0.00" min="0" step="0.01" onchange="saveExp('dom-2')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-dom-2">
+          <input class="ef" data-f="time" value="08:00">
+          <input class="ef" data-f="name" value="🛍️ Desayuno + Souvenirs rápidos (Váci utca)">
+          <textarea class="ef" data-f="desc">Paprika, pálinka, salami. Tiendas abren 9h domingos. ⚠️ Máx. hasta las 09:00.</textarea>
+          <input class="ef" data-f="map" value="https://maps.google.com/?q=Váci+utca+Budapest">
+          <div class="eas">
+            <button type="button" class="bs bsave" onclick="SE('dom-2')">✅ Guardar</button>
+            <button type="button" class="bs bcanc" onclick="CE('dom-2')">Cancelar</button>
+            <button type="button" class="bs bdel" onclick="DEL('dom-2')">🗑 Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="trn"><div class="trn-pill">🚶 8 min — Por Váci utca hasta Deák Ferenc tér · o M1 1 parada</div></div>
+    <div class="ti" id="dom-3">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1">
+          <span class="ct">09:00</span>
+          <span class="cn">🚌 Bus 100E → Aeropuerto</span>
+          <button type="button" class="eico" onclick="OE('dom-3')">✏️</button>
+          <button type="button" class="ckb" onclick="CD('dom-3')">⬜</button>
+        </div>
+        <div class="cd">Sale cada 15-20 min desde Deák. ~40-45 min. Ticket 2.200 HUF — NO vale tarjeta 72h.</div>
+        <div class="ctags"><span class="tag tt">🚌 100E · 40-45 min</span><span class="tag te">2.200 HUF/p</span><span class="tag tw">⚠ NO tarjeta 72h</span></div>
+        <div class="clnks"><a href="https://maps.google.com/?q=Deák+Ferenc+tér+parada+bus+100E+Budapest" target="_blank" class="lnk lm">📍 Maps</a></div>
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-dom-3" placeholder="0.00" min="0" step="0.01" onchange="saveExp('dom-3')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-dom-3">
+          <input class="ef" data-f="time" value="09:00">
+          <input class="ef" data-f="name" value="🚌 Bus 100E → Aeropuerto">
+          <textarea class="ef" data-f="desc">Sale cada 15-20 min desde Deák. ~40-45 min. Ticket 2.200 HUF — NO vale tarjeta 72h.</textarea>
+          <input class="ef" data-f="map" value="https://maps.google.com/?q=Deák+Ferenc+tér+parada+bus+100E+Budapest">
+          <div class="eas">
+            <button type="button" class="bs bsave" onclick="SE('dom-3')">✅ Guardar</button>
+            <button type="button" class="bs bcanc" onclick="CE('dom-3')">Cancelar</button>
+            <button type="button" class="bs bdel" onclick="DEL('dom-3')">🗑 Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ti" id="dom-4">
+      <div class="tdot"></div>
+      <div class="tc">
+        <div class="cr1">
+          <span class="ct">12:20</span>
+          <span class="cn">🛫 Vuelo FR7368 Budapest → Castellón</span>
+          <button type="button" class="eico" onclick="OE('dom-4')">✏️</button>
+          <button type="button" class="ckb" onclick="CD('dom-4')">⬜</button>
+        </div>
+        <div class="cd">Llegada 15:15. Localizador: F6VHUH. ¡Hasta la próxima Budapest! 🇭🇺</div>
+        <div class="ctags"><span class="tag tt">✈ FR7368 · F6VHUH</span></div>
+        
+        <div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-dom-4" placeholder="0.00" min="0" step="0.01" onchange="saveExp('dom-4')" /><span class="exp-unit">€ total 4</span></div>
+        <div class="ced" id="ced-dom-4">
+          <input class="ef" data-f="time" value="12:20">
+          <input class="ef" data-f="name" value="🛫 Vuelo FR7368 Budapest → Castellón">
+          <textarea class="ef" data-f="desc">Llegada 15:15. Localizador: F6VHUH. ¡Hasta la próxima Budapest! 🇭🇺</textarea>
+          <input class="ef" data-f="map" value="">
+          <div class="eas">
+            <button type="button" class="bs bsave" onclick="SE('dom-4')">✅ Guardar</button>
+            <button type="button" class="bs bcanc" onclick="CE('dom-4')">Cancelar</button>
+            <button type="button" class="bs bdel" onclick="DEL('dom-4')">🗑 Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type="button" class="addbtn" onclick="TAF('add-dom')">＋ Añadir parada al día</button>
+  <div class="addfrm" id="add-dom">
+    <h4>➕ Nueva parada</h4>
+    <label>Hora</label><input type="text" id="add-dom-time" placeholder="ej. 15:00">
+    <label>Nombre del sitio</label><input type="text" id="add-dom-name" placeholder="ej. 🏊 Baños Széchenyi">
+    <label>Descripción</label><textarea id="add-dom-desc" placeholder="Qué hacer, precio..."></textarea>
+    <label>Link Google Maps (opcional)</label><input type="url" id="add-dom-map">
+    <div class="afrm-acts">
+      <button type="button" class="bs bsave" onclick="AS('dom')">✅ Añadir</button>
+      <button type="button" class="bs bcanc" onclick="TAF('add-dom')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══ PAGE GASTOS ═══ -->
+<div class="pg" id="pg-exp">
+  <div class="sec">💶 Resumen de Gastos del Viaje</div>
+  <button type="button" class="recalc-btn" onclick="calcExp()">🔄 Actualizar totales</button>
+
+  <div id="exp-pairs"></div>
+
+  <div class="exp-summary">
+    <div class="exp-sumhdr">📋 Desglose completo por actividad</div>
+    <table class="exp-table" id="exp-table">
+      <thead><tr><th>Actividad</th><th>Total (€)</th><th>Pareja 1<br>P+N</th><th>Pareja 2<br>P+B</th></tr></thead>
+      <tbody id="exp-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+//  BUDAPEST 2026 — SINCRONIZACIÓN EN LA NUBE (JSONBin.io)
+//  Los 4 viajeros comparten el mismo estado en tiempo real
+// ═══════════════════════════════════════════════════════════
+var S = {done:{}, edits:{}, exps:{}};
+
+// ── Configuración JSONBin ──────────────────────────────────
+// INSTRUCCIONES PARA ACTIVAR (solo una vez, Pedro):
+//   1. Ve a https://jsonbin.io → "Sign Up" gratis
+//   2. En el Dashboard → "Create Bin" → pega {} → Create
+//   3. Copia el BIN ID (ej: 6659abc12...)
+//   4. Ve a Account → API Keys → copia tu Master Key
+//   5. Pega ambos valores aquí abajo y sube el archivo
+var JSONBIN_ID  = '6a2098aeda38895dfe832d4c';
+var JSONBIN_KEY = '$2a$10$vFbnhWMCDqkb4eHXuuPjyOmhB88kcnaQjTnU/zfXL53RdRIcQpx56';
+var JSONBIN_URL = 'https://api.jsonbin.io/v3/b/' + JSONBIN_ID;
+var saveTimer   = null;
+var CONFIGURED  = (JSONBIN_ID.length > 10 && JSONBIN_KEY.length > 10 && JSONBIN_ID.indexOf('PEGAR') === -1 && JSONBIN_KEY.indexOf('PEGAR') === -1);
+
+// ── Indicador de sync ─────────────────────────────────────
+function setSyncStatus(st){
+  var el = document.getElementById('sync-dot');
+  var tx = document.getElementById('sync-txt');
+  var map = {
+    loading: {bg:'#888',     txt:'Cargando datos...'},
+    ok:      {bg:'#2D6A45',  txt:'✅ Guardado — todos ven los cambios'},
+    saving:  {bg:'#C9A84C',  txt:'💾 Guardando...'},
+    error:   {bg:'#B03030',  txt:'⚠️ Sin conexión — datos locales'},
+    local:   {bg:'#2A4A7A',  txt:'📱 Modo local · Configura JSONBin para sincronizar'}
+  };
+  var m = map[st] || map.local;
+  if(el){ el.style.background = m.bg; }
+  if(tx){ tx.textContent = m.txt; }
+}
+
+// ── Cargar estado desde JSONBin ───────────────────────────
+function lsLoad(){
+  if(!CONFIGURED){ loadFromLS(); return; }
+  setSyncStatus('loading');
+  fetch(JSONBIN_URL + '/latest', {
+    headers: {'X-Master-Key': JSONBIN_KEY}
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data){
+    var saved = (data.record) ? data.record : {};
+    applyState(saved);
+    setSyncStatus('ok');
+  })
+  .catch(function(){
+    loadFromLS();
+    setSyncStatus('error');
+  });
+}
+
+// ── Guardar estado en JSONBin (con debounce 800ms) ────────
+function lsSave(){
+  // Siempre guardar en localStorage como backup
+  try{ localStorage.setItem('bp26_backup', JSON.stringify(S)); } catch(e){}
+  if(!CONFIGURED){ setSyncStatus('local'); return; }
+  clearTimeout(saveTimer);
+  setSyncStatus('saving');
+  saveTimer = setTimeout(function(){
+    fetch(JSONBIN_URL, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Master-Key': JSONBIN_KEY
+      },
+      body: JSON.stringify(S)
+    })
+    .then(function(){ setSyncStatus('ok'); })
+    .catch(function(){ setSyncStatus('error'); });
+  }, 800);
+}
+
+// ── Fallback: localStorage ────────────────────────────────
+function loadFromLS(){
+  try{
+    var d = localStorage.getItem('bp26_backup');
+    applyState(d ? JSON.parse(d) : {});
+  } catch(e){ applyState({}); }
+  setSyncStatus(CONFIGURED ? 'error' : 'local');
+}
+
+// ─── TAB SWITCH ───
+function ST(id){
+  var pages = document.querySelectorAll('.pg');
+  var tabs = document.querySelectorAll('.tb');
+  for(var i=0;i<pages.length;i++) pages[i].classList.remove('on');
+  for(var i=0;i<tabs.length;i++) tabs[i].classList.remove('on');
+  var p = document.getElementById('pg-'+id);
+  var t = document.getElementById('tb-'+id);
+  if(p) p.classList.add('on');
+  if(t) t.classList.add('on');
+  try{ window.scrollTo(0,0); }catch(e){}
+  if(id==='exp') calcExp();
+}
+
+
+// ── CURRENCY CONVERTER ──
+var RATE = 395; // HUF per EUR
+function convEUR(v){
+  var eur = parseFloat(v)||0;
+  document.getElementById('eur-inp').value = eur ? eur.toFixed(2) : '';
+  document.getElementById('huf-inp').value = eur ? Math.round(eur * RATE) : '';
+}
+function convHUF(v){
+  var huf = parseFloat(v)||0;
+  document.getElementById('huf-inp').value = huf ? Math.round(huf) : '';
+  document.getElementById('eur-inp').value = huf ? (huf / RATE).toFixed(2) : '';
+}
+
+// Map toggle removed — using direct Google Maps links
+
+// ─── CHECK / DONE ───
+function CD(id){
+  var el = document.getElementById(id);
+  if(!el) return;
+  el.classList.toggle('dn2');
+  var btn = el.querySelector('.ckb');
+  if(btn) btn.textContent = el.classList.contains('dn2') ? '✅' : '⬜';
+  S.done[id] = el.classList.contains('dn2');
+  lsSave();
+  updProg();
+}
+
+// ─── EDIT ───
+function OE(id){
+  closeAllEdits();
+  var ed = document.getElementById('ced-'+id);
+  if(ed){ ed.classList.add('op'); ed.style.display='block'; }
+}
+function CE(id){
+  var ed = document.getElementById('ced-'+id);
+  if(ed){ ed.classList.remove('op'); ed.style.display=''; }
+}
+function closeAllEdits(){
+  var eds = document.querySelectorAll('.ced');
+  for(var i=0;i<eds.length;i++){ eds[i].classList.remove('op'); eds[i].style.display=''; }
+}
+function SE(id){
+  var el = document.getElementById(id);
+  var ed = document.getElementById('ced-'+id);
+  if(!el||!ed) return;
+  var tf = ed.querySelector('[data-f="time"]');
+  var nf = ed.querySelector('[data-f="name"]');
+  var df = ed.querySelector('[data-f="desc"]');
+  var mf = ed.querySelector('[data-f="map"]');
+  if(tf){ var ct=el.querySelector('.ct'); if(ct) ct.textContent=tf.value; }
+  if(nf){ var cn=el.querySelector('.cn'); if(cn) cn.textContent=nf.value; }
+  if(df){ var cd=el.querySelector('.cd'); if(cd) cd.textContent=df.value; }
+  if(mf && mf.value){
+    var lnks=el.querySelector('.clnks');
+    if(!lnks){ lnks=document.createElement('div'); lnks.className='clnks'; el.querySelector('.tc').appendChild(lnks); }
+    var ex=lnks.querySelector('.lm');
+    if(ex){ ex.href=mf.value; } else { var a=document.createElement('a'); a.href=mf.value; a.target='_blank'; a.className='lnk lm'; a.textContent='📍 Maps'; lnks.appendChild(a); }
+  }
+  S.edits[id]={time:tf?tf.value:'',name:nf?nf.value:'',desc:df?df.value:'',map:mf?mf.value:''};
+  lsSave();
+  CE(id);
+}
+function DEL(id){
+  if(!confirm('¿Eliminar esta parada?')) return;
+  var el=document.getElementById(id);
+  if(el) el.remove();
+  S.custom['del_'+id]=true;
+  lsSave();
+  updProg();
+}
+
+// ─── ADD STOP ───
+function TAF(fid){
+  var f=document.getElementById(fid);
+  if(!f) return;
+  var isOp=f.classList.contains('op');
+  var all=document.querySelectorAll('.addfrm');
+  for(var i=0;i<all.length;i++) all[i].classList.remove('op');
+  if(!isOp) f.classList.add('op');
+}
+var addC=200;
+function AS(day){
+  var pre='add-'+day+'-';
+  var time=document.getElementById(pre+'time').value.trim();
+  var name=document.getElementById(pre+'name').value.trim();
+  var desc=document.getElementById(pre+'desc').value.trim();
+  var mapv=document.getElementById(pre+'map').value.trim();
+  if(!name){ alert('Pon un nombre'); return; }
+  var id=day+'-c'+(++addC);
+  var tlId='tl-'+day; 
+  // try tl-vie-bars for viernes bars section or main tl
+  var tl=document.getElementById('tl-'+day+'-bars')||document.getElementById('tl-'+day);
+  if(!tl) return;
+  var div=document.createElement('div');
+  div.className='ti';
+  div.id=id;
+  div.innerHTML='<div class="tdot"></div><div class="tc"><div class="cr1"><span class="ct">'+(time||'--:--')+'</span><span class="cn">'+name+'</span>'+(mapv?'':'')+'<button type="button" class="eico" onclick="OE(\''+id+'\')">✏️</button><button type="button" class="ckb" onclick="CD(\''+id+'\')">⬜</button></div><div class="cd">'+(desc||'')+'</div>'+(mapv?'<div class="clnks"><a href="'+mapv+'" target="_blank" class="lnk lm">📍 Maps</a></div>':'')+'<div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-'+id+'" placeholder="0.00" min="0" step="0.01" onchange="saveExp(\''+id+'\')" /> <span class="exp-unit">€ total 4 personas</span></div><div class="ced" id="ced-'+id+'"><input class="ef" data-f="time" value="'+(time||'')+'"><input class="ef" data-f="name" value="'+name+'"><textarea class="ef" data-f="desc">'+(desc||'')+'</textarea><input class="ef" data-f="map" value="'+(mapv||'')+'"><div class="eas"><button type="button" class="bs bsave" onclick="SE(\''+id+'\')">✅ Guardar</button><button type="button" class="bs bcanc" onclick="CE(\''+id+'\')">Cancelar</button><button type="button" class="bs bdel" onclick="DEL(\''+id+'\')">🗑 Eliminar</button></div></div></div>';
+  tl.appendChild(div);
+  ['time','name','desc','map'].forEach(function(f){ var el=document.getElementById(pre+f); if(el) el.value=''; });
+  document.getElementById('add-'+day).classList.remove('op');
+  updProg();
+}
+
+// ─── EXPENSES ───
+function saveExp(id){
+  var inp=document.getElementById('exp-'+id);
+  if(inp){ S.exps[id]=parseFloat(inp.value)||0; lsSave(); }
+}
+function getExp(id){
+  var inp=document.getElementById('exp-'+id);
+  if(inp){ var v=parseFloat(inp.value); return isNaN(v)?0:v; }
+  return S.exps[id]||0;
+}
+
+function calcExp(){
+  var rows=[];
+  var days=['jue','vie','sab','dom'];
+  var dayNames={'jue':'Jueves 5 Jun','vie':'Viernes 6 Jun','sab':'Sábado 7 Jun','dom':'Domingo 8 Jun'};
+  var grandTotal=0;
+  var tbody=document.getElementById('exp-tbody');
+  if(!tbody) return;
+  tbody.innerHTML='';
+
+  days.forEach(function(day){
+    var items=document.querySelectorAll('[id^="'+day+'-"]');
+    var dayTotal=0;
+    var dayRows=[];
+    items.forEach(function(item){
+      if(!item.classList.contains('ti')) return;
+      var id=item.id;
+      var name=item.querySelector('.cn');
+      var expInp=document.getElementById('exp-'+id);
+      var amt=expInp ? (parseFloat(expInp.value)||0) : 0;
+      if(amt>0 || expInp){
+        var n=name?name.textContent.replace(/✅.*$/,'').trim():id;
+        dayRows.push({id:id,name:n,amt:amt});
+        dayTotal+=amt;
+      }
+    });
+    if(dayRows.length>0){
+      // day header row
+      var dr=document.createElement('tr');
+      dr.className='day-row';
+      dr.innerHTML='<td colspan="4">📅 '+dayNames[day]+'</td>';
+      tbody.appendChild(dr);
+      dayRows.forEach(function(r){
+        var half=(r.amt/2).toFixed(2);
+        var tr=document.createElement('tr');
+        tr.innerHTML='<td>'+r.name.substring(0,35)+'</td><td class="exp-amt'+(r.amt===0?' zero':'')+'">'+r.amt.toFixed(2)+'€</td><td class="exp-amt">'+half+'€</td><td class="exp-amt">'+half+'€</td>';
+        tbody.appendChild(tr);
+        grandTotal+=r.amt;
+      });
+    }
+  });
+
+  // Total row
+  var half=(grandTotal/2).toFixed(2);
+  var tr=document.createElement('tr');
+  tr.className='total-row';
+  tr.innerHTML='<td><strong>TOTAL VIAJE</strong></td><td class="pair-total">'+grandTotal.toFixed(2)+'€</td><td class="pair-total">'+half+'€</td><td class="pair-total">'+half+'€</td>';
+  tbody.appendChild(tr);
+
+  // Pair cards
+  var pc=document.getElementById('exp-pairs');
+  if(pc){
+    var half2=grandTotal/2;
+    pc.innerHTML='<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">'
+      +'<div class="pair-card"><h3>👨👩 Pedro + Nuria</h3><div class="pair-total-big" style="color:var(--dk2);">'+half2.toFixed(2)+'€</div><div style="font-size:.72rem;color:#888;margin-top:4px;">La mitad del total del viaje</div><div class="pair-bar"><div class="pair-fill" style="width:50%;background:var(--gold);"></div></div></div>'
+      +'<div class="pair-card"><h3>👨👩 Paco + Beatriz</h3><div class="pair-total-big" style="color:var(--dk2);">'+half2.toFixed(2)+'€</div><div style="font-size:.72rem;color:#888;margin-top:4px;">La mitad del total del viaje</div><div class="pair-bar"><div class="pair-fill" style="width:50%;background:var(--blu);"></div></div></div>'
+      +'</div>'
+      +'<div style="background:var(--gp);border-radius:9px;padding:11px 13px;margin-bottom:12px;font-size:.74rem;color:var(--dk2);">💡 <strong>Nota:</strong> Los gastos se dividen 50/50 entre las dos parejas. Introduce el gasto <strong>total de los 4</strong> en cada actividad pulsando el botón ✏️ o directamente en el campo de cada parada del itinerario.</div>';
+  }
+}
+
+// ─── PROGRESS ───
+function updProg(){
+  var all=document.querySelectorAll('.ti');
+  var done=document.querySelectorAll('.ti.dn2');
+  var pct=all.length?Math.round(done.length/all.length*100):0;
+  var fill=document.getElementById('pg-fill');
+  var txt=document.getElementById('pg-txt');
+  if(fill) fill.style.width=pct+'%';
+  if(txt) txt.textContent=done.length+' de '+all.length+' paradas completadas ('+pct+'%)';
+}
+
+// ─── APPLY STATE (shared between JSONBin and localStorage restore) ───
+function applyState(saved){
+  if(saved.done)  S.done  = saved.done;
+  if(saved.edits) S.edits = saved.edits;
+  if(saved.exps)  S.exps  = saved.exps;
+
+  // Restore done/checked items
+  Object.keys(S.done).forEach(function(id){
+    if(!S.done[id]) return;
+    var el = document.getElementById(id);
+    if(!el) return;
+    el.classList.add('dn2');
+    var btn = el.querySelector('.ckb');
+    if(btn) btn.textContent = '✅';
+  });
+
+  // Restore expense values
+  Object.keys(S.exps).forEach(function(id){
+    var inp = document.getElementById('exp-'+id);
+    if(inp && S.exps[id]) inp.value = S.exps[id];
+  });
+
+  // Restore edits
+  Object.keys(S.edits).forEach(function(id){
+    var el = document.getElementById(id);
+    var d = S.edits[id];
+    if(!el || !d) return;
+    if(d.time){ var ct=el.querySelector('.ct'); if(ct) ct.textContent=d.time; }
+    if(d.name){ var cn=el.querySelector('.cn'); if(cn) cn.textContent=d.name; }
+    if(d.desc){ var cd=el.querySelector('.cd'); if(cd) cd.textContent=d.desc; }
+  });
+
+  updProg();
+  calcExp();
+}
+
+// ─── BOTÓN RESET (para limpiar todo si hace falta) ───────
+function resetAll(){
+  if(!confirm('¿Borrar todos los checks, gastos y ediciones? Esta acción no se puede deshacer.')) return;
+  S = {done:{}, edits:{}, exps:{}};
+  lsSave();
+  location.reload();
+}
+
+// ─── INIT ────────────────────────────────────────────────
+(function init(){
+  lsLoad();
+})();
+</script>
+</body>
+</html>
