@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Budapest 2026 — Pedro 📱</title>
+<style>
+:root {
+  --gold:#C9A84C; --gl:#E8C96B; --gp:#F5E8BE;
+  --dk:#1A1208; --dk2:#2D2010; --mid:#6B4E2A;
+  --cr:#FAF5E8; --cr2:#F0E4C8;
+  --red:#B03030; --grn:#2D6A45; --blu:#2A4A7A;
+  --th:56px;
+}
+/* ... (Todo tu CSS previo se mantiene igual aquí) ... */
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <span class="hero-flag">🇭🇺</span>
+  <h1>Budapest<br><em>Los Cuatro</em></h1>
+</div>
+
+<script>
+// ─── LÓGICA DE SINCRONIZACIÓN ───
+var S = {done:{}, edits:{}, exps:{}, payer:{}};
+var JSONBIN_ID  = "6a2098aeda38895dfe832d4c";
+var JSONBIN_KEY = "$2a$10$vFbnhWMCDqkb4eHXuuPjyOmhB88kcnaQjTnU/zfXL53RdRIcQpx56";
+var JSONBIN_URL = "https://api.jsonbin.io/v3/b/" + JSONBIN_ID;
+
+function applyState(saved) {
+    if(saved.done) S.done = saved.done;
+    if(saved.edits) S.edits = saved.edits;
+    if(saved.exps) S.exps = saved.exps;
+    // ... (El resto de tu lógica de carga)
+}
+
+function calcExp() {
+    var grandTotal = 0;
+    // ... (Toda tu lógica de cálculo de gastos limpia)
+}
+
+// Inicialización única
+(function init(){
+    // lsLoad(); // Asegúrate de llamar a la función que carga tus datos
+    console.log("Sistema cargado");
+})();
+</script>
+</body>
+</html>
+
+
+
+< script>
+// ═══════════════════════════════════════════════════════════
+//  BUDAPEST 2026 — SINCRONIZACIÓN EN LA NUBE (JSONBin.io)
+// ═══════════════════════════════════════════════════════════
+var S = {done:{}, edits:{}, exps:{}, payer:{}};
+
+// ── Configuración JSONBin ──────────────────────────────────
+var JSONBIN_ID  = '6a2098aeda38895dfe832d4c';
+var JSONBIN_KEY = '$2a$10$vFbnhWMCDqkb4eHXuuPjyOmhB88kcnaQjTnU/zfXL53RdRIcQpx56';
+var JSONBIN_URL = 'https://api.jsonbin.io/v3/b/' + JSONBIN_ID;
+var saveTimer   = null;
+var CONFIGURED  = (JSONBIN_ID.length > 10 && JSONBIN_KEY.length > 10 && JSONBIN_ID.indexOf('PEGAR') === -1 && JSONBIN_KEY.indexOf('PEGAR') === -1);
+
+// ── Indicador de sync ─────────────────────────────────────
+function setSyncStatus(st){
+  var el = document.getElementById('sync-dot');
+  var tx = document.getElementById('sync-txt');
+  var map = {
+    loading: {bg:'#888',     txt:'Cargando datos...'},
+    ok:      {bg:'#2D6A45',  txt:'✅ Guardado — todos ven los cambios'},
+    saving:  {bg:'#C9A84C',  txt:'💾 Guardando...'},
+    error:   {bg:'#B03030',  txt:'⚠️ Sin conexión — datos locales'},
+    local:   {bg:'#2A4A7A',  txt:'📱 Modo local · Configura JSONBin para sincronizar'}
+  };
+  var m = map[st] || map.local;
+  if(el){ el.style.background = m.bg; }
+  if(tx){ tx.textContent = m.txt; }
+}
+
+// ── Cargar estado desde JSONBin ───────────────────────────
+function lsLoad(){
+  if(!CONFIGURED){ loadFromLS(); return; }
+  setSyncStatus('loading');
+  fetch(JSONBIN_URL + '/latest', {
+    headers: {'X-Master-Key': JSONBIN_KEY}
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data){
+    var saved = (data.record) ? data.record : {};
+    applyState(saved);
+    setSyncStatus('ok');
+  })
+  .catch(function(){
+    loadFromLS();
+    setSyncStatus('error');
+  });
+}
+
+// ── Guardar estado en JSONBin (con debounce 800ms) ────────
+function lsSave(){
+  try{ localStorage.setItem('bp26_pedro', JSON.stringify(S)); } catch(e){}
+  if(!CONFIGURED){ setSyncStatus('local'); return; }
+  clearTimeout(saveTimer);
+  setSyncStatus('saving');
+  saveTimer = setTimeout(function(){
+    fetch(JSONBIN_URL, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Master-Key': JSONBIN_KEY
+      },
+      body: JSON.stringify(S)
+    })
+    .then(function(){ setSyncStatus('ok'); })
+    .catch(function(){ setSyncStatus('error'); });
+  }, 800);
+}
+
+// ── Fallback: localStorage ────────────────────────────────
+function loadFromLS(){
+  try{
+    var d = localStorage.getItem('bp26_pedro');
+    applyState(d ? JSON.parse(d) : {});
+  } catch(e){ applyState({}); }
+  setSyncStatus(CONFIGURED ? 'error' : 'local');
+}
+
+// ─── TAB SWITCH ───
+function ST(id){
+  var pages = document.querySelectorAll('.pg');
+  var tabs = document.querySelectorAll('.tb');
+  for(var i=0;i<pages.length;i++) pages[i].classList.remove('on');
+  for(var i=0;i<tabs.length;i++) tabs[i].classList.remove('on');
+  var p = document.getElementById('pg-'+id);
+  var t = document.getElementById('tb-'+id);
+  if(p) p.classList.add('on');
+  if(t) t.classList.add('on');
+  try{ window.scrollTo(0,0); }catch(e){}
+  if(id==='exp') calcExp();
+}
+
+// ── CURRENCY CONVERTER ──
+var RATE = 395;
+function convEUR(v){
+  var eur = parseFloat(v)||0;
+  document.getElementById('eur-inp').value = eur ? eur.toFixed(2) : '';
+  document.getElementById('huf-inp').value = eur ? Math.round(eur * RATE) : '';
+}
+function convHUF(v){
+  var huf = parseFloat(v)||0;
+  document.getElementById('huf-inp').value = huf ? Math.round(huf) : '';
+  document.getElementById('eur-inp').value = huf ? (huf / RATE).toFixed(2) : '';
+}
+
+// ─── CHECK / DONE ───
+function CD(id){
+  var el = document.getElementById(id);
+  if(!el) return;
+  el.classList.toggle('dn2');
+  var btn = el.querySelector('.ckb');
+  if(btn) btn.textContent = el.classList.contains('dn2') ? '✅' : '⬜';
+  S.done[id] = el.classList.contains('dn2');
+  lsSave();
+  updProg();
+}
+
+// ─── EDIT ───
+function OE(id){
+  closeAllEdits();
+  var ed = document.getElementById('ced-'+id);
+  if(ed){ ed.classList.add('op'); ed.style.display='block'; }
+}
+function CE(id){
+  var ed = document.getElementById('ced-'+id);
+  if(ed){ ed.classList.remove('op'); ed.style.display=''; }
+}
+function closeAllEdits(){
+  var eds = document.querySelectorAll('.ced');
+  for(var i=0;i<eds.length;i++){ eds[i].classList.remove('op'); eds[i].style.display=''; }
+}
+function SE(id){
+  var el = document.getElementById(id);
+  var ed = document.getElementById('ced-'+id);
+  if(!el||!ed) return;
+  var tf = ed.querySelector('[data-f="time"]');
+  var nf = ed.querySelector('[data-f="name"]');
+  var df = ed.querySelector('[data-f="desc"]');
+  var mf = ed.querySelector('[data-f="map"]');
+  if(tf){ var ct=el.querySelector('.ct'); if(ct) ct.textContent=tf.value; }
+  if(nf){ var cn=el.querySelector('.cn'); if(cn) cn.textContent=nf.value; }
+  if(df){ var cd=el.querySelector('.cd'); if(cd) cd.textContent=df.value; }
+  if(mf && mf.value){
+    var lnks=el.querySelector('.clnks');
+    if(!lnks){ lnks=document.createElement('div'); lnks.className='clnks'; el.querySelector('.tc').appendChild(lnks); }
+    var ex=lnks.querySelector('.lm');
+    if(ex){ ex.href=mf.value; } else { var a=document.createElement('a'); a.href=mf.value; a.target='_blank'; a.className='lnk lm'; a.textContent='📍 Maps'; lnks.appendChild(a); }
+  }
+  S.edits[id]={time:tf?tf.value:'',name:nf?nf.value:'',desc:df?df.value:'',map:mf?mf.value:''};
+  lsSave();
+  CE(id);
+}
+function DEL(id){
+  if(!confirm('¿Eliminar esta parada?')) return;
+  var el=document.getElementById(id);
+  if(el) el.remove();
+  if(!S.custom) S.custom = {};
+  S.custom['del_'+id]=true;
+  lsSave();
+  updProg();
+}
+
+// ─── ADD STOP ───
+function TAF(fid){
+  var f=document.getElementById(fid);
+  if(!f) return;
+  var isOp=f.classList.contains('op');
+  var all=document.querySelectorAll('.addfrm');
+  for(var i=0;i<all.length;i++) all[i].classList.remove('op');
+  if(!isOp) f.classList.add('op');
+}
+var addC=200;
+function AS(day){
+  var pre='add-'+day+'-';
+  var time=document.getElementById(pre+'time').value.trim();
+  var name=document.getElementById(pre+'name').value.trim();
+  var desc=document.getElementById(pre+'desc').value.trim();
+  var mapv=document.getElementById(pre+'map').value.trim();
+  if(!name){ alert('Pon un nombre'); return; }
+  var id=day+'-c'+(++addC);
+  var tl=document.getElementById('tl-'+day+'-bars')||document.getElementById('tl-'+day);
+  if(!tl) return;
+  var div=document.createElement('div');
+  div.className='ti';
+  div.id=id;
+  div.innerHTML='<div class="tdot"></div><div class="tc"><div class="cr1"><span class="ct">'+(time||'--:--')+'</span><span class="cn">'+name+'</span>'+(mapv?'':'')+'<button type="button" class="eico" onclick="OE(\''+id+'\')">✏️</button><button type="button" class="ckb" onclick="CD(\''+id+'\')">⬜</button></div><div class="cd">'+(desc||'')+'</div>'+(mapv?'<div class="clnks"><a href="'+mapv+'" target="_blank" class="lnk lm">📍 Maps</a></div>':'')+'<div class="exp-row"><span class="exp-lbl">💶 Gasto:</span><input type="number" class="exp-inp" id="exp-'+id+'" placeholder="0.00" min="0" step="0.01" onchange="saveExp(\''+id+'\')" /> <span class="exp-unit">€ total 4 personas</span></div><div class="ced" id="ced-'+id+'"><input class="ef" data-f="time" value="'+(time||'')+'"><input class="ef" data-f="name" value="'+name+'"><textarea class="ef" data-f="desc">'+(desc||'')+'</textarea><input class="ef" data-f="map" value="'+(mapv||'')+'"><div class="eas"><button type="button" class="bs bsave" onclick="SE(\''+id+'\')">✅ Guardar</button><button type="button" class="bs bcanc" onclick="CE(\''+id+'\')">Cancelar</button><button type="button" class="bs bdel" onclick="DEL(\''+id+'\')">🗑 Eliminar</button></div></div></div>';
+  tl.appendChild(div);
+  ['time','name','desc','map'].forEach(function(f){ var el=document.getElementById(pre+f); if(el) el.value=''; });
+  document.getElementById('add-'+day).classList.remove('op');
+  updProg();
+}
+
+// ─── EXPENSES ───
+function saveExp(id){
+  var inp = document.getElementById('exp-' + id);
+  var sel = document.getElementById('pay-' + id);
+  if (inp) { S.exps[id] = parseFloat(inp.value) || 0; }
+  if (sel) { if (!S.payer) S.payer = {}; S.payer[id] = sel.value; }
+  lsSave();
+}
+function getExp(id){
+  var inp=document.getElementById('exp-'+id);
+  if(inp){ var v=parseFloat(inp.value); return isNaN(v)?0:v; }
+  return S.exps[id]||0;
+}
+
+function calcExp() {
+  var days = ['jue','vie','sab','dom'];
+  var dayNames = {jue:'Jueves 5 Jun', vie:'Viernes 6 Jun', sab:'Sábado 7 Jun', dom:'Domingo 8 Jun'};
+  var grandTotal = 0;
+  var totalPN = 0;   
+  var totalPB = 0;   
+  var debePN  = 0;   
+  var debePB  = 0;   
+
+  var tbody = document.getElementById('exp-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+
+  days.forEach(function(day) {
+    var items = document.querySelectorAll('[id^="' + day + '-"]');
+    var dayRows = [];
+    items.forEach(function(item) {
+      if (!item.classList.contains('ti')) return;
+      var id   = item.id;
+      var name = item.querySelector('.cn');
+      var expInp = document.getElementById('exp-' + id);
+      var paysel = document.getElementById('pay-' + id);
+      var amt    = expInp ? (parseFloat(expInp.value) || 0) : 0;
+      var payer  = (paysel ? paysel.value : null) || (S.payer && S.payer[id]) || 'split';
+      if (amt === 0) return;
+      var n = name ? name.textContent.replace(/[^a-zA-ZÀ-ɏ0-9 \-.]/g,'').trim().substring(0,28) : id;
+      dayRows.push({id:id, name:n, amt:amt, payer:payer});
+      grandTotal += amt;
+      
+      if (payer === 'pn') totalPN += amt;
+      else if (payer === 'pb') totalPB += amt;
+      else { totalPN += amt/2; totalPB += amt/2; } 
+      
+      debePN += amt / 2;
+      debePB += amt / 2;
+    });
+    
+    if (dayRows.length > 0) {
+      var dr = document.createElement('tr');
+      dr.className = 'day-row';
+      dr.innerHTML = '<td colspan="4">📅 ' + dayNames[day] + '</td>';
+      tbody.appendChild(dr);
+      dayRows.forEach(function(r) {
+        var half = (r.amt / 2).toFixed(2);
+        var payLabel = r.payer === 'pn' ? '<span style="color:#1A6A3A;font-weight:700;">P+N</span>' : r.payer === 'pb' ? '<span style="color:#1A3A8A;font-weight:700;">P+B</span>' : '<span style="color:#888;">50/50</span>';
+        var tr = document.createElement('tr');
+        tr.innerHTML = '<td>' + r.name + '</td><td class="exp-amt">' + r.amt.toFixed(2) + '€</td><td>' + payLabel + '</td><td class="exp-amt">' + half + '€</td>';
+        tbody.appendChild(tr);
+      });
+    }
+  });
+
+  var balancePN = totalPN - debePN;
+  var balancePB = totalPB - debePB;
+
+  var sep = document.createElement('tr');
+  sep.innerHTML = '<td colspan="4" style="padding:3px 0;"></td>';
+  tbody.appendChild(sep);
+
+  var sumPN = document.createElement('tr');
+  sumPN.style.background = '#f0fff4';
+  sumPN.innerHTML = '<td colspan="2" style="font-weight:700;font-size:.8rem;color:#1A6A3A;">Pedro+Nuria han pagado</td><td colspan="2" class="exp-amt" style="color:#1A6A3A;">' + totalPN.toFixed(2) + '€</td>';
+  tbody.appendChild(sumPN);
+
+  var sumPB = document.createElement('tr');
+  sumPB.style.background = '#f0f4ff';
+  sumPB.innerHTML = '<td colspan="2" style="font-weight:700;font-size:.8rem;color:#1A3A8A;">Paco+Beatriz han pagado</td><td colspan="2" class="exp-amt" style="color:#1A3A8A;">' + totalPB.toFixed(2) + '€</td>';
+  tbody.appendChild(sumPB);
+
+  var totRow = document.createElement('tr');
+  totRow.className = 'total-row';
+  totRow.innerHTML = '<td colspan="2"><strong>TOTAL GASTADO</strong></td><td colspan="2" class="pair-total">' + grandTotal.toFixed(2) + '€</td>';
+  tbody.appendChild(totRow);
+
+  var pc = document.getElementById('exp-pairs');
+  if (pc) {
+    var liquidHtml = '';
+    if (grandTotal === 0) {
+      liquidHtml = '<div style="text-align:center;padding:20px;color:#888;font-size:.88rem;">Introduce gastos en el itinerario para ver la liquidación.</div>';
+    } else {
+      var cadaUno = (grandTotal / 2).toFixed(2);
+      var debtor = '', creditor = '', amount = 0;
+      if (balancePN > 0.01) {
+        debtor    = 'Paco + Beatriz';
+        creditor  = 'Pedro + Nuria';
+        amount    = balancePN;
+      } else if (balancePB > 0.01) {
+        debtor    = 'Pedro + Nuria';
+        creditor  = 'Paco + Beatriz';
+        amount    = balancePB;
+      }
+
+      liquidHtml =
+        '<div style="display:flex;gap:10px;margin-bottom:14px;">' +
+          '<div class="pair-card" style="flex:1;border-left:4px solid #1A6A3A;">' +
+            '<div style="font-size:.72rem;font-weight:700;color:#1A6A3A;margin-bottom:5px;">PEDRO + NURIA</div>' +
+            '<div style="font-size:1.4rem;font-weight:900;font-family:monospace;">' + totalPN.toFixed(2) + '€</div>' +
+            '<div style="font-size:.72rem;color:#888;margin-top:3px;">pagado</div>' +
+            '<div style="font-size:.78rem;margin-top:5px;color:#555;">Les corresponde: <strong>' + debePN.toFixed(2) + '€</strong></div>' +
+            '<div style="font-size:.78rem;color:' + (balancePN >= 0 ? '#1A6A3A' : '#B03030') + ';font-weight:700;margin-top:3px;">' +
+              (balancePN >= 0.01 ? 'Les deben ' + balancePN.toFixed(2) + '€' : balancePN <= -0.01 ? 'Deben ' + Math.abs(balancePN).toFixed(2) + '€' : 'En paz') +
+            '</div>' +
+          '</div>' +
+          '<div class="pair-card" style="flex:1;border-left:4px solid #1A3A8A;">' +
+            '<div style="font-size:.72rem;font-weight:700;color:#1A3A8A;margin-bottom:5px;">PACO + BEATRIZ</div>' +
+            '<div style="font-size:1.4rem;font-weight:900;font-family:monospace;">' + totalPB.toFixed(2) + '€</div>' +
+            '<div style="font-size:.72rem;color:#888;margin-top:3px;">pagado</div>' +
+            '<div style="font-size:.78rem;margin-top:5px;color:#555;">Les corresponde: <strong>' + debePB.toFixed(2) + '€</strong></div>' +
+            '<div style="font-size:.78rem;color:' + (balancePB >= 0 ? '#1A6A3A' : '#B03030') + ';font-weight:700;margin-top:3px;">' +
+              (balancePB >= 0.01 ? 'Les deben ' + balancePB.toFixed(2) + '€' : balancePB <= -0.01 ? 'Deben ' + Math.abs(balancePB).toFixed(2) + '€' : 'En paz') +
+            '</div>' +
+          '</div>' +
+        '</div>';
+
+      if (amount > 0.01) {
+        liquidHtml +=
+          '<div style="background:var(--dk2);border-radius:13px;padding:16px;text-align:center;margin-bottom:12px;">' +
+            '<div style="font-size:.65rem;text-transform:uppercase;letter-spacing:2px;color:var(--gold);font-weight:700;margin-bottom:10px;">LIQUIDACIÓN FINAL</div>' +
+            '<div style="color:rgba(255,255,255,.7);font-size:.88rem;margin-bottom:8px;">' + debtor + '</div>' +
+            '<div style="font-size:2.4rem;font-weight:900;color:var(--gl);font-family:monospace;line-height:1;">' + amount.toFixed(2) + '€</div>' +
+            '<div style="color:rgba(255,255,255,.5);font-size:.78rem;margin:6px 0 10px;">deben a</div>' +
+            '<div style="color:#fff;font-size:.96rem;font-weight:700;">' + creditor + '</div>' +
+          '</div>';
+      } else {
+        liquidHtml +=
+          '<div style="background:var(--grn);border-radius:13px;padding:16px;text-align:center;margin-bottom:12px;">' +
+            '<div style="font-size:1.8rem;">OK</div>' +
+            '<div style="color:#fff;font-weight:700;margin-top:6px;">Estáis en paz</div>' +
+          '</div>';
+      }
+
+      liquidHtml +=
+        '<div style="background:var(--gp);border-radius:10px;padding:12px;font-size:.8rem;color:var(--dk2);line-height:1.6;margin-bottom:12px;">' +
+          '<strong>Total viaje:</strong> ' + grandTotal.toFixed(2) + '€ &nbsp;·&nbsp; ' +
+          '<strong>Cada pareja:</strong> ' + cadaUno + '€' +
+        '</div>';
+    }
+    pc.innerHTML = liquidHtml;
+  }
+}
+
+// ─── PROGRESS ───
+function updProg(){
+  var all=document.querySelectorAll('.ti');
+  var done=document.querySelectorAll('.ti.dn2');
+  var pct=all.length?Math.round(done.length/all.length*100):0;
+  var fill=document.getElementById('pg-fill');
+  var txt=document.getElementById('pg-txt');
+  if(fill) fill.style.width=pct+'%';
+  if(txt) txt.textContent=done.length+' de '+all.length+' paradas completadas ('+pct+'%)';
+}
+
+// ─── APPLY STATE ───
+function applyState(saved){
+  if(saved.done)  S.done  = saved.done;
+  if(saved.edits) S.edits = saved.edits;
+  if(saved.exps)  S.exps  = saved.exps;
+  if(saved.payer) S.payer = saved.payer; else if(!S.payer) S.payer = {};
+
+  Object.keys(S.done).forEach(function(id){
+    if(!S.done[id]) return;
+    var el = document.getElementById(id);
+    if(!el) return;
+    el.classList.add('dn2');
+    var btn = el.querySelector('.ckb');
+    if(btn) btn.textContent = '✅';
+  });
+
+  Object.keys(S.exps).forEach(function(id){
+    var inp = document.getElementById('exp-'+id);
+    if(inp && S.exps[id]) inp.value = S.exps[id];
+    var sel = document.getElementById('pay-'+id);
+    if(sel && S.payer && S.payer[id]) sel.value = S.payer[id];
+  });
+
+  Object.keys(S.edits).forEach(function(id){
+    var el = document.getElementById(id);
+    var d = S.edits[id];
+    if(!el || !d) return;
+    if(d.time){ var ct=el.querySelector('.ct'); if(ct) ct.textContent=d.time; }
+    if(d.name){ var cn=el.querySelector('.cn'); if(cn) cn.textContent=d.name; }
+    if(d.desc){ var cd=el.querySelector('.cd'); if(cd) cd.textContent=d.desc; }
+  });
+
+  updProg();
+  calcExp();
+}
+
+// ─── BOTÓN RESET ───────
+function resetAll(){
+  if(!confirm('¿Borrar todos los checks, gastos y ediciones? Esta acción no se puede deshacer.')) return;
+  S = {done:{}, edits:{}, exps:{}, payer:{}};
+  lsSave();
+  location.reload();
+}
+
+// ─── INIT ────────────────────────────────────────────────
+(function init(){
+  lsLoad();
+})();
+</script>
+
+</body>
+</html>
